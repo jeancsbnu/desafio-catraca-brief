@@ -26,6 +26,7 @@ npm run down    # derruba containers e rede; o volume do banco é preservado
 | Produto (`$WEB`) | `http://localhost:3000` |
 | API de parceiros (`$API`) | `http://localhost:3000` |
 | Saúde | `http://localhost:3000/health` |
+| Área do organizador | `http://localhost:3000/organizador` (`$WEB/organizador`; organizadores da seed) |
 
 `$WEB` e `$API` são o mesmo servidor; as rotas da API de parceiros ficam sob `/api/` (entregues pela F07).
 
@@ -70,6 +71,7 @@ O modo padrão usa o gateway de pagamento **simulado**, sem nenhuma chave de pag
 - **Resposta assíncrona do gateway:** a solicitação de pagamento grava uma tentativa (`payment_attempts`, só com os 4 últimos dígitos do cartão) com o resultado sorteado pelo final do cartão e um prazo absoluto no relógio do banco (`due_at = requested_at + atraso`, com `clock_timestamp()`), e responde na hora. Um worker no processo da aplicação varre o banco a cada 200 ms com `SELECT … FOR UPDATE SKIP LOCKED` e entrega cada tentativa vencida ao tratador registrado dentro da mesma transação que grava `delivered_at`: efeito e marca são confirmados juntos, exatamente uma vez, mesmo com mais de um worker; se o tratador falha, tudo é desfeito e a tentativa volta com espera crescente (0,2 s até 5 s). Como o estado está no banco, um reinício não perde nada: a primeira varredura roda ao subir e entrega o que venceu com a aplicação parada; o resto sai no prazo original. O atraso é sorteado em faixas internas mais estreitas que as do brief (2,2–4,0 s e 30,5–38,5 s) para que, somadas a espera da varredura e a entrega, o efeito caia sempre entre 2 e 5 s ou entre 30 e 40 s, com folga para quem observa por consulta periódica. A escala de atraso (`GATEWAY_DELAY_SCALE`) só vale com `NODE_ENV=test`. Efeito nos ingressos e resposta tardia: F05.
 - **Isolamento da avaliação:** cada feature tem um contrato (`contract.md`) congelado antes da implementação; quem implementa não avalia. O avaliador é um agente com contexto novo que roda o contrato inteiro num clone limpo do commit avaliado e grava um relatório imutável em `reports/` (um arquivo novo por avaliação). Só ele muda o estado da feature para `concluida` ou `reprovada`.
 - **Sessão e acesso:** cookie `catraca_sessao` assinado (HMAC-SHA256), `HttpOnly`, `SameSite=Lax`, válido por 12 h, que leva só um token aleatório; a sessão fica na tabela `sessions` (hash do token), por isso `Sair` a encerra de verdade e ela sobrevive a reinícios. Toda a área `/organizador` é protegida por um hook global (visitante → `/entrar`, participante → `403`), e formulários vindos de outro site são recusados pela checagem de origem.
+- **Eventos e isolamento:** o evento é sempre carregado por id **e** dono na mesma consulta (evento de outro organizador = inexistente = `404` `Evento não encontrado`, sem nenhum dado), e toda mudança de lotação ou status (e, na F05, toda compra) trava a linha do evento (`SELECT … FOR UPDATE`) antes de ler as vagas ocupadas: a lotação nunca fica abaixo das vagas ocupadas e o cancelamento afeta os ingressos na mesma transação.
 
 ## Variáveis de ambiente
 

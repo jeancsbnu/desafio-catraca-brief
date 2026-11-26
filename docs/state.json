@@ -30,10 +30,10 @@
     "F04": {
       "nome": "Gestão de eventos",
       "wave": 3,
-      "status": "especificada",
-      "branch": null,
-      "pr": null,
-      "ultimo_relatorio": null
+      "status": "concluida",
+      "branch": "feat/F04-gestao-de-eventos",
+      "pr": 4,
+      "ultimo_relatorio": "docs/features/F04-gestao-de-eventos/reports/2026-11-26-055041.md"
     },
 
     "F05": {
