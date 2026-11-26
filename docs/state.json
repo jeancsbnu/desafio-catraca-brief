@@ -21,7 +21,7 @@
     "F03": {
       "nome": "Gateway de pagamento simulado",
       "wave": 2,
-      "status": "em_implementacao",
+      "status": "aguardando_avaliacao",
       "branch": "feat/F03-gateway-de-pagamento-simulado",
       "pr": 3,
       "ultimo_relatorio": null
