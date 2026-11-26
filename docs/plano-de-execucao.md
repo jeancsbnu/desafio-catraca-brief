@@ -47,7 +47,7 @@ Ponto de partida para a entrevista do `prd-writer`. **A divisão final está no 
 | F06 | Vitrine e Meus ingressos | R02, R06, R07, R09 | F02, F04, F05 | 5 ‖ |
 | F07 | API de parceiros (3 rotas, contrato fixo, `X-Api-Key`) | R02, R05–R07 | F04, F05 | 5 ‖ |
 | F08 | Check-in | R10 | F04, F05 | 5 ‖ |
-| F09 | Painel do evento | R12, R03 | F04, F05 | 5 ‖ |
+| F09 | Painel do evento | R12, R03 | F04, F05, F08 | 6 |
 
 ```mermaid
 graph TD
