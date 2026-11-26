@@ -606,6 +606,9 @@ graph TD
 - **F09-CA05** Check-ins conta só os confirmados que passaram pelo check-in, e Confirmados continua incluindo esses ingressos (R12).
 
 ### Integração entre features
+
+CF01 a CF18 cobrem as 15 arestas do grafo da seção 8 — cada aresta `A → B` tem pelo menos um critério, verificado no contrato da consumidora `B`. CF19 e CF20 **não são arestas**: são critérios de encontro entre várias features (vendas da vitrine e da API somadas no painel; ingresso da API passando no check-in e aparecendo no painel). Por isso a notação lista todas as envolvidas (`F06, F07 → F09`) sem que o grafo ganhe arestas F06 → F09 ou F07 → F09; eles pertencem ao contrato da envolvida implementada por último (F09, Wave 6).
+
 - **CF01** F01 → F02: o organizador A criado pela seed (F01) entra pelo login (F02) com as credenciais do README e chega a `/organizador`; depois de `npm run down` e `npm run up`, o mesmo login continua funcionando.
 - **CF02** F01 → F03: com o ambiente subido por `npm run up` sem `.env` (F01), o gateway (F03) opera no modo `simulado` com os tempos do brief: `gateway:simular` com `4000000000000001` entrega `aprovado` entre 2 e 5 s.
 - **CF03** F02 → F04: a gestão de eventos (F04) só aceita sessão de organizador (F02): visitante é redirecionado para `/entrar`, participante recebe `Acesso negado`, e o organizador B não vê nem opera os eventos de A, nem pela lista nem pela URL direta (R13).
