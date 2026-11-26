@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { createTestApp } from '../helpers/app.js';
+// Módulos de F01–F04 (sem o ingressos da F05, que registra o próprio tratador/provedor).
+import { createBaseTestApp as createTestApp } from '../helpers/base-features.js';
 import { seedAccounts } from '../helpers/seed.js';
 import { sessionCookieFor } from '../helpers/session.js';
 import { createViaHttp, DEPOIS, eventFields, get, occurrences, ONTEM, postEmpty, postForm, PROX, snapshot } from './support.js';

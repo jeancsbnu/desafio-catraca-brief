@@ -1,7 +1,8 @@
 // Tempos de ponta a ponta (solicitação → efeito no tratador), medidos no relógio do banco.
 import { describe, expect, it } from 'vitest';
 import type { EntregaResultado } from '../../src/features/gateway/public.js';
-import { createTestApp } from '../helpers/app.js';
+// Módulos de F01–F04 (sem o ingressos da F05, que registra o próprio tratador/provedor).
+import { createBaseTestApp as createTestApp } from '../helpers/base-features.js';
 import { aguardarEntrega } from '../helpers/gateway.js';
 
 const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));

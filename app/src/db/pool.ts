@@ -11,10 +11,11 @@ export type DbClient = pg.PoolClient;
 /** Qualquer coisa que executa SQL: o pool ou um cliente dentro de uma transação. */
 export type Queryable = pg.Pool | pg.PoolClient;
 
-export function createPool(config: { databaseUrl: string }): Db {
+/** max: conexões no máximo (padrão 10); a rajada de compras da CLI e dos testes usa mais (F05). */
+export function createPool(config: { databaseUrl: string; max?: number }): Db {
   const pool = new pg.Pool({
     connectionString: config.databaseUrl,
-    max: 10,
+    max: config.max ?? 10,
     connectionTimeoutMillis: 5000,
     application_name: 'catraca',
     options: `-c TimeZone=${PRODUCT_TIMEZONE}`,

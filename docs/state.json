@@ -39,10 +39,10 @@
     "F05": {
       "nome": "Compra e ciclo do ingresso",
       "wave": 4,
-      "status": "especificada",
-      "branch": null,
-      "pr": null,
-      "ultimo_relatorio": null
+      "status": "concluida",
+      "branch": "feat/F05-compra-e-ciclo-do-ingresso",
+      "pr": 5,
+      "ultimo_relatorio": "docs/features/F05-compra-e-ciclo-do-ingresso/reports/2026-11-26-065300.md"
     },
 
     "F06": {

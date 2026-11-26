@@ -589,7 +589,7 @@ Esperado:
 - `status: declined (recusado)` e `vagas do evento: lotação 1, ocupadas 0, disponíveis 1` (a recusa liberou a vaga).
 - `resumo: criadas 1, sold_out 0, event_not_available 0, invalid_request 0, erros 0` e `vagas: lotação 1, ocupadas 1, disponíveis 0 (evento publicado)` (a vaga liberada foi vendida de novo).
 - `<E3>`; `resumo: criadas 1, sold_out 0, event_not_available 0, invalid_request 0, erros 0`.
-- `pending|<x>` com 29,0 ≤ x < 30,0 (aos 29 s ainda pendente).
+- `pending|<x>` com 29,0 ≤ x < 30,5 (aos 29 s ainda pendente; ver alteração A1 na seção 5).
 - `confirmed|<x>` com x ≥ 41,0.
 - `confirmed|<s>|dentro` (30 ≤ s ≤ 40).
 - `0003|aprovado|t|<d>` com 30 ≤ d ≤ 40.
@@ -653,4 +653,4 @@ Notas do mapeamento:
 
 ## 5. Alterações do contrato
 
-Nenhuma.
+- **A1 — 2026-11-26, antes da primeira avaliação (pedida pelo orquestrador).** C14, leitura "aos 29 s": o limite superior passou de `x < 30,0` para `x < 30,5`. Motivo: a leitura é feita por `docker compose exec`, cuja latência medida variou de 0,2 a 1,3 s, de modo que uma leitura iniciada aos 29 s pode terminar depois de 30,0 s. Como o status de um ingresso nunca volta a `pending`, ler `pending` em qualquer instante ≥ 29,0 s prova que o ingresso estava pendente aos 29 s (o que o CF04 exige); o limite de 30,5 s mantém a leitura colada aos 29 s. Nenhuma expectativa sobre o produto mudou: a confirmação continua exigida entre 30 e 40 s.
