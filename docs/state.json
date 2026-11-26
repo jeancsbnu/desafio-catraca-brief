@@ -3,10 +3,10 @@
     "F01": {
       "nome": "Fundação e harness",
       "wave": 1,
-      "status": "aguardando_avaliacao",
+      "status": "concluida",
       "branch": "feat/F01-fundacao-e-harness",
       "pr": 1,
-      "ultimo_relatorio": null
+      "ultimo_relatorio": "docs/features/F01-fundacao-e-harness/reports/2026-11-25-231500.md"
     },
 
     "F02": {
