@@ -1,9 +1,23 @@
-// Módulo eventos (F04): tabela events e consultas. As rotas da área do organizador e os pontos de
-// extensão entram nas fases seguintes.
+// Módulo eventos (F04): tabela events, área do organizador (lista, criação e página de gestão com
+// edição, publicação e cancelamento), isolamento por dono e os pontos de extensão app.events.
+// Envolvido por fastify-plugin: app.events e request.ownedEvent valem para os outros módulos.
 import './types.js';
 import fp from 'fastify-plugin';
+import { createEventsExtensions } from './extensions.js';
 
 /** Depois de contas (10) e gateway (20); antes das consumidoras (F05 em diante, > 30). */
 export const loadOrder = 30;
 
-export default fp(async () => {}, { name: 'eventos', dependencies: ['contas'] });
+export default fp(
+  async (app) => {
+    const extensions = createEventsExtensions(app);
+    app.decorate('events', extensions.publicApi());
+    app.decorateRequest('ownedEvent', null);
+
+    // Registros de extensão só no registro dos plugins (ou num teste antes do primeiro inject).
+    app.addHook('onReady', async () => {
+      extensions.freeze();
+    });
+  },
+  { name: 'eventos', dependencies: ['contas'] },
+);
