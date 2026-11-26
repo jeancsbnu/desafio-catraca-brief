@@ -4,6 +4,7 @@
 import './types.js';
 import fp from 'fastify-plugin';
 import { createEventsExtensions } from './extensions.js';
+import { registerEventRoutes } from './routes.js';
 
 /** Depois de contas (10) e gateway (20); antes das consumidoras (F05 em diante, > 30). */
 export const loadOrder = 30;
@@ -18,6 +19,9 @@ export default fp(
     app.addHook('onReady', async () => {
       extensions.freeze();
     });
+
+    // Assume o GET /organizador do módulo mínimo da F02 (removido) e as rotas de eventos.
+    registerEventRoutes(app, extensions);
   },
   { name: 'eventos', dependencies: ['contas'] },
 );
