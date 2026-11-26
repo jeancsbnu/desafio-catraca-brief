@@ -65,7 +65,7 @@ O modo padrão usa o gateway de pagamento **simulado**, sem nenhuma chave de pag
 - **Harness:** tudo roda em containers; o host só precisa de Docker, Git e Node.js. `npm run up` usa `docker compose up --build --wait` e a aplicação aplica migrations (SQL com timestamp, tabela de controle, trava consultiva) e a seed idempotente antes de escutar; o healthcheck da imagem consulta `/health`, que confere o banco. Os gates rodam numa imagem própria, num projeto Compose separado com banco em memória, por isso não interferem no ambiente no ar nem em outras worktrees.
 - **Configuração:** variáveis de ambiente com padrão (nenhuma obrigatória, sem `.env`); fuso `America/Sao_Paulo` no container, em cada conexão com o banco e nos formatadores; dinheiro sempre em centavos.
 - **R07 sob concorrência:** a completar na F05.
-- **Resposta assíncrona do gateway:** a completar na F03/F05.
+- **Resposta assíncrona do gateway:** a solicitação de pagamento grava uma tentativa (`payment_attempts`, só com os 4 últimos dígitos do cartão) com o resultado sorteado pelo final do cartão e um prazo absoluto no relógio do banco (`due_at = requested_at + atraso`, com `clock_timestamp()`), e responde na hora. Um worker no processo da aplicação varre o banco a cada 200 ms com `SELECT … FOR UPDATE SKIP LOCKED` e entrega cada tentativa vencida ao tratador registrado dentro da mesma transação que grava `delivered_at`: efeito e marca são confirmados juntos, exatamente uma vez, mesmo com mais de um worker; se o tratador falha, tudo é desfeito e a tentativa volta com espera crescente (0,2 s até 5 s). Como o estado está no banco, um reinício não perde nada: a primeira varredura roda ao subir e entrega o que venceu com a aplicação parada; o resto sai no prazo original. O atraso é sorteado em faixas internas mais estreitas que as do brief (2,2–4,0 s e 30,5–38,5 s) para que, somadas a espera da varredura e a entrega, o efeito caia sempre entre 2 e 5 s ou entre 30 e 40 s, com folga para quem observa por consulta periódica. A escala de atraso (`GATEWAY_DELAY_SCALE`) só vale com `NODE_ENV=test`. Efeito nos ingressos e resposta tardia: F05.
 - **Isolamento da avaliação:** cada feature tem um contrato (`contract.md`) congelado antes da implementação; quem implementa não avalia. O avaliador é um agente com contexto novo que roda o contrato inteiro num clone limpo do commit avaliado e grava um relatório imutável em `reports/` (um arquivo novo por avaliação). Só ele muda o estado da feature para `concluida` ou `reprovada`.
 
 ## Variáveis de ambiente
@@ -91,7 +91,10 @@ docker compose exec app catraca help      # lista os comandos
 docker compose exec app catraca config    # configuração efetiva (segredos mascarados)
 docker compose exec app catraca migrate   # aplica migrations pendentes (normalmente nenhuma)
 docker compose exec app catraca seed      # garante as 3 contas da seed, sem duplicar
+docker compose exec app catraca gateway:simular 4000000000000001   # simula um pagamento: resultado e tempo
 docker compose exec db psql -U catraca -d catraca   # banco
 ```
+
+`gateway:simular` segue a tabela do gateway pelo final do cartão (`0001` aprovado e `0002` recusado em 2–5 s; `0003` aprovado e `0004` recusado em 30–40 s; qualquer outro final recusado em 2–5 s): imprime a solicitação na hora e, quando o worker da aplicação entrega o resultado, uma linha como `aprovado em 3,4 s` (tempo entre solicitação e entrega, no relógio do banco). Com `--sem-esperar`, imprime só a solicitação. O número completo do cartão nunca é gravado nem impresso.
 
 Outras features acrescentam comandos (ex.: simulação do gateway e de compras).

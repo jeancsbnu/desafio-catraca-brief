@@ -21,10 +21,10 @@
     "F03": {
       "nome": "Gateway de pagamento simulado",
       "wave": 2,
-      "status": "especificada",
-      "branch": null,
-      "pr": null,
-      "ultimo_relatorio": null
+      "status": "concluida",
+      "branch": "feat/F03-gateway-de-pagamento-simulado",
+      "pr": 3,
+      "ultimo_relatorio": "docs/features/F03-gateway-de-pagamento-simulado/reports/2026-11-26-000133.md"
     },
 
     "F04": {
