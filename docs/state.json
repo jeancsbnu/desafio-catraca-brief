@@ -57,10 +57,10 @@
     "F07": {
       "nome": "API de parceiros",
       "wave": 5,
-      "status": "aguardando_avaliacao",
+      "status": "concluida",
       "branch": "feat/F07-api-de-parceiros",
       "pr": 7,
-      "ultimo_relatorio": null
+      "ultimo_relatorio": "docs/features/F07-api-de-parceiros/reports/2026-11-26-075500.md"
     },
 
     "F08": {
