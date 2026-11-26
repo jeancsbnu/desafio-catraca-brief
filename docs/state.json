@@ -57,8 +57,8 @@
     "F07": {
       "nome": "API de parceiros",
       "wave": 5,
-      "status": "especificada",
-      "branch": null,
+      "status": "em_implementacao",
+      "branch": "feat/F07-api-de-parceiros",
       "pr": null,
       "ultimo_relatorio": null
     },
