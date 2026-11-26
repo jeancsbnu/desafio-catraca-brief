@@ -1,0 +1,668 @@
++ date -Iseconds
+2026-11-26T00:01:19-03:00
++ git clone -q /home/jean/projetos/desafio-catraca-brief/.worktrees/F02 /tmp/catraca-f02-eval-20261126-000119
++ cd /tmp/catraca-f02-eval-20261126-000119
++ git checkout -q 66394999deb037db56d8ed5844f0b491022b3342
++ git log -1 --format=%H
+66394999deb037db56d8ed5844f0b491022b3342
++ set +x
+.
+..
+.claude
+.env.example
+.git
+.gitattributes
+.gitignore
+.prettierignore
+AGENTS.md
+CLAUDE.md
+README.md
+app
+compose.gates.yaml
+compose.yaml
+docs
+package.json
+scripts
+=== PREP
+0
+66394999deb037db56d8ed5844f0b491022b3342
+
+> catraca@0.1.0 down
+> node scripts/down.mjs
+
+[down] Derrubando a Catraca (projeto Compose "catraca")...
+[down] Pronto: containers e rede removidos; volume do banco preservado.
+down_exit=0
+000
+curl_exit=7
+
+> catraca@0.1.0 up
+> node scripts/up.mjs
+
+[up] Construindo e subindo a Catraca (projeto Compose "catraca", porta 3000)...
+ Image catraca-app Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 549B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.34kB done
+#2 DONE 0.3s
+
+#3 [internal] load metadata for docker.io/library/node:24-bookworm-slim
+#3 DONE 0.4s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 85B done
+#4 DONE 0.3s
+
+#5 [internal] load build context
+#5 DONE 0.0s
+
+#6 [base 1/2] FROM docker.io/library/node:24-bookworm-slim@sha256:873f586f3794f52281bd039bf02c048a0be08fde619338f9941bad1eb6b34530
+#6 resolve docker.io/library/node:24-bookworm-slim@sha256:873f586f3794f52281bd039bf02c048a0be08fde619338f9941bad1eb6b34530
+#6 resolve docker.io/library/node:24-bookworm-slim@sha256:873f586f3794f52281bd039bf02c048a0be08fde619338f9941bad1eb6b34530 0.4s done
+#6 DONE 0.4s
+
+#5 [internal] load build context
+#5 transferring context: 321.70kB 0.1s done
+#5 DONE 0.4s
+
+#7 [runtime 5/6] COPY bin/catraca /usr/local/bin/catraca
+#7 CACHED
+
+#8 [prod-deps 2/2] RUN npm ci --omit=dev --no-audit --no-fund
+#8 CACHED
+
+#9 [deps 2/2] RUN npm ci --no-audit --no-fund
+#9 CACHED
+
+#10 [runtime 4/6] COPY migrations ./migrations
+#10 CACHED
+
+#11 [runtime 2/6] COPY package.json ./
+#11 CACHED
+
+#12 [base 2/2] WORKDIR /app
+#12 CACHED
+
+#13 [runtime 1/6] COPY --from=prod-deps /app/node_modules ./node_modules
+#13 CACHED
+
+#14 [runtime 3/6] COPY --from=build /app/dist ./dist
+#14 CACHED
+
+#15 [deps 1/2] COPY package.json package-lock.json ./
+#15 CACHED
+
+#16 [build 1/2] COPY . .
+#16 CACHED
+
+#17 [build 2/2] RUN npm run build
+#17 CACHED
+
+#18 [runtime 6/6] RUN chmod 0755 /usr/local/bin/catraca
+#18 CACHED
+
+#19 exporting to image
+#19 exporting layers 0.0s done
+#19 exporting manifest sha256:ba77e17811ce9a59307b027a945758a0dc963557c276391c68d76c8e574f4ed7
+#19 exporting manifest sha256:ba77e17811ce9a59307b027a945758a0dc963557c276391c68d76c8e574f4ed7 0.2s done
+#19 exporting config sha256:b5b50c46ec635d29d65b4329671f4fb2fa538956bd075b70c0f4a07cf98d1c2a
+#19 exporting config sha256:b5b50c46ec635d29d65b4329671f4fb2fa538956bd075b70c0f4a07cf98d1c2a 0.1s done
+#19 exporting attestation manifest sha256:05084a41b71495b847daffb9a89511dd56d3d81e90e58c8d7ea82742f02685b9
+#19 exporting attestation manifest sha256:05084a41b71495b847daffb9a89511dd56d3d81e90e58c8d7ea82742f02685b9 0.7s done
+#19 exporting manifest list sha256:8ec7f4711566b8fed623dd0ca3d11ee4babff5d3fd97cbb92d25b6d4f1a8191e
+#19 exporting manifest list sha256:8ec7f4711566b8fed623dd0ca3d11ee4babff5d3fd97cbb92d25b6d4f1a8191e 0.3s done
+#19 naming to docker.io/library/catraca-app:latest
+#19 naming to docker.io/library/catraca-app:latest 0.0s done
+#19 unpacking to docker.io/library/catraca-app:latest 0.1s done
+#19 DONE 1.9s
+
+#20 resolving provenance for metadata file
+#20 DONE 0.0s
+ Image catraca-app Built 
+ Network catraca_default Creating 
+ Network catraca_default Created 
+ Volume catraca_db-data Creating 
+ Volume catraca_db-data Created 
+ Container catraca-db-1 Creating 
+ Container catraca-db-1 Created 
+ Container catraca-app-1 Creating 
+ Container catraca-app-1 Created 
+ Container catraca-db-1 Starting 
+ Container catraca-db-1 Started 
+ Container catraca-db-1 Waiting 
+ Container catraca-db-1 Healthy 
+ Container catraca-app-1 Starting 
+ Container catraca-app-1 Started 
+ Container catraca-app-1 Waiting 
+ Container catraca-db-1 Waiting 
+ Container catraca-db-1 Healthy 
+ Container catraca-app-1 Healthy 
+[up] Catraca no ar.
+[up] $WEB = http://localhost:3000
+[up] $API = http://localhost:3000
+[up] Contas da seed e chave de parceiro: README.md, seção "Credenciais".
+exit=0
+T=/tmp/catraca-f02-zRVmOE U=1795662106
+=== C01
+200
+ok: <a href="/entrar">Entrar</a>
+ok: <a href="/cadastro">Criar conta</a>
+ausente: <button type="submit">Sair</button>
+ausente: nav-usuario
+200
+ok: <h1>Criar conta</h1>
+ok: <form method="post" action="/cadastro">
+ok: name="nome"
+ok: name="email"
+ok: name="senha"
+ok: type="password"
+ok: <a href="/entrar">Entrar</a>
+200
+ok: <h1>Entrar</h1>
+ok: <form method="post" action="/entrar">
+ok: name="email"
+ok: name="senha"
+ok: <a href="/cadastro">Criar conta</a>
+404
+ok: <a href="/entrar">Entrar</a>
+ok: <a href="/cadastro">Criar conta</a>
+=== C02
+302
+set-cookie: catraca_sessao=6L_2yc…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /
+1
+200
+ok: <span class="nav-usuario">Ana F02 1795662106</span>
+ok: <a href="/meus-ingressos">Meus ingressos</a>
+ok: <button type="submit">Sair</button>
+ausente: <a href="/entrar">Entrar</a>
+ausente: <a href="/cadastro">Criar conta</a>
+ausente: href="/organizador"
+participante|Ana F02 1795662106
+1
+=== C03 (executado ao fim da coleta de páginas? não: na ordem)
+t|t
+0
+0
+=== C04
+422
+1
+ok: value="Outra Pessoa"
+ok: value="PARTICIPANTE@catraca.test"
+0
+422
+1
+organizador.a@catraca.test|organizador|Organizador A
+participante@catraca.test|participante|Participante
+=== C05
+422
+1
+422
+1
+422
+1
+true
+422
+1
+0
+302
+set-cookie: catraca_sessao=xARJo9…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /
+participante
+=== C06
+302
+set-cookie: catraca_sessao=6gpN1a…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /
+participante
+403
+1
+=== C07
+302
+set-cookie: catraca_sessao=DN2Y-s…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /organizador
+200
+ok: <h1>Área do organizador</h1>
+ok: <span class="nav-usuario">Organizador A</span>
+ok: <a href="/organizador">Área do organizador</a>
+ok: <button type="submit">Sair</button>
+ausente: <a href="/meus-ingressos">Meus ingressos</a>
+ausente: <a href="/entrar">Entrar</a>
+43200
+302
+set-cookie: catraca_sessao=ZF2a1y…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /organizador
+=== C08
+302
+set-cookie: catraca_sessao=wPjTVG…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /
+200
+ok: <span class="nav-usuario">Participante</span>
+ok: <a href="/meus-ingressos">Meus ingressos</a>
+ok: <button type="submit">Sair</button>
+ausente: href="/organizador"
+ausente: <a href="/entrar">Entrar</a>
+=== C09
+422
+1
+ok: value="organizador.a@catraca.test"
+0
+422
+1
+ausente: Informe
+ausente: já cadastrado
+422
+1
+=== C10
+302
+location: /entrar?voltar=%2Fmeus-ingressos
+200
+1
+302
+set-cookie: catraca_sessao=rvYEya…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /meus-ingressos
+200
+1
+302
+set-cookie: catraca_sessao=6DUqQD…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /eventos/evt_exemplo?origem=f02
+302
+set-cookie: catraca_sessao=ufsKIB…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /organizador
+=== C11
+302 location: / 
+302 location: / 
+302 location: / 
+302 location: / 
+302 location: / 
+302 location: / 
+302 location: / 
+200
+0
+0
+=== C12
+302
+set-cookie: catraca_sessao=nY8T6t…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /
+87
+200
+302
+set-cookie: catraca_sessao=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+location: /
+302
+location: /entrar?voltar=%2Fmeus-ingressos
+302
+location: /entrar
+302
+set-cookie: catraca_sessao=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+location: /entrar?voltar=%2Fmeus-ingressos
+302
+set-cookie: catraca_sessao=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+location: /entrar
+302
+set-cookie: catraca_sessao=2evTLp…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /organizador
+87
+200
+302
+set-cookie: catraca_sessao=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+location: /
+302
+location: /entrar
+302
+set-cookie: catraca_sessao=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+location: /entrar
+302
+set-cookie: catraca_sessao=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+location: /entrar?voltar=%2Fmeus-ingressos
+=== C13
+/organizador 302 location: /entrar 
+/organizador/ 302 location: /entrar 
+/organizador/eventos/novo 302 location: /entrar 
+/organizador/eventos/evt_inexistente 302 location: /entrar 
+/%6Frganizador 302 location: /entrar 
+302
+location: /entrar
+=== C14
+302
+set-cookie: catraca_sessao=6L5aLq…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /
+/organizador | 403 | 1 | 0
+/organizador/ | 403 | 1 | 0
+/organizador/eventos/novo | 403 | 1 | 0
+/organizador/eventos/evt_inexistente | 403 | 1 | 0
+/%6Frganizador | 403 | 1 | 0
+403
+1
+=== C15
+302
+set-cookie: catraca_sessao=nLkAAv…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /organizador
+200
+302
+set-cookie: catraca_sessao=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+location: /entrar
+302
+set-cookie: catraca_sessao=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+location: /entrar
+UPDATE 1
+302
+set-cookie: catraca_sessao=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+location: /entrar
+=== C16
+302
+set-cookie: catraca_sessao=qKkAqA…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /organizador
+403
+1
+403
+403
+200
+403
+302
+set-cookie: catraca_sessao=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+location: /
+302
+location: /entrar
+=== C17
+1
+3
+302
+set-cookie: catraca_sessao=lqQorQ…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /organizador
+200
+1
+
+> catraca@0.1.0 down
+> node scripts/down.mjs
+
+[down] Derrubando a Catraca (projeto Compose "catraca")...
+ Container catraca-app-1 Stopping 
+ Container catraca-app-1 Stopped 
+ Container catraca-app-1 Removing 
+ Container catraca-app-1 Removed 
+ Container catraca-db-1 Stopping 
+ Container catraca-db-1 Stopped 
+ Container catraca-db-1 Removing 
+ Container catraca-db-1 Removed 
+ Network catraca_default Removing 
+ Network catraca_default Removed 
+[down] Pronto: containers e rede removidos; volume do banco preservado.
+exit=0
+000
+curl_exit=7
+
+> catraca@0.1.0 up
+> node scripts/up.mjs
+
+[up] Construindo e subindo a Catraca (projeto Compose "catraca", porta 3000)...
+ Image catraca-app Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 549B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.34kB done
+#2 DONE 0.2s
+
+#3 [internal] load metadata for docker.io/library/node:24-bookworm-slim
+#3 DONE 0.4s
+
+#4 [internal] load .dockerignore
+#4 transferring context:
+#4 transferring context: 85B done
+#4 DONE 0.3s
+
+#5 [internal] load build context
+#5 DONE 0.0s
+
+#6 [base 1/2] FROM docker.io/library/node:24-bookworm-slim@sha256:873f586f3794f52281bd039bf02c048a0be08fde619338f9941bad1eb6b34530
+#6 resolve docker.io/library/node:24-bookworm-slim@sha256:873f586f3794f52281bd039bf02c048a0be08fde619338f9941bad1eb6b34530
+#6 resolve docker.io/library/node:24-bookworm-slim@sha256:873f586f3794f52281bd039bf02c048a0be08fde619338f9941bad1eb6b34530 0.3s done
+#6 DONE 0.4s
+
+#5 [internal] load build context
+#5 transferring context: 4.68kB done
+#5 DONE 0.2s
+
+#7 [runtime 2/6] COPY package.json ./
+#7 CACHED
+
+#8 [runtime 5/6] COPY bin/catraca /usr/local/bin/catraca
+#8 CACHED
+
+#9 [prod-deps 2/2] RUN npm ci --omit=dev --no-audit --no-fund
+#9 CACHED
+
+#10 [runtime 4/6] COPY migrations ./migrations
+#10 CACHED
+
+#11 [runtime 1/6] COPY --from=prod-deps /app/node_modules ./node_modules
+#11 CACHED
+
+#12 [build 1/2] COPY . .
+#12 CACHED
+
+#13 [build 2/2] RUN npm run build
+#13 CACHED
+
+#14 [runtime 3/6] COPY --from=build /app/dist ./dist
+#14 CACHED
+
+#15 [deps 2/2] RUN npm ci --no-audit --no-fund
+#15 CACHED
+
+#16 [base 2/2] WORKDIR /app
+#16 CACHED
+
+#17 [deps 1/2] COPY package.json package-lock.json ./
+#17 CACHED
+
+#18 [runtime 6/6] RUN chmod 0755 /usr/local/bin/catraca
+#18 CACHED
+
+#19 exporting to image
+#19 exporting layers
+#19 exporting layers 0.0s done
+#19 exporting manifest sha256:ba77e17811ce9a59307b027a945758a0dc963557c276391c68d76c8e574f4ed7 0.0s done
+#19 exporting config sha256:b5b50c46ec635d29d65b4329671f4fb2fa538956bd075b70c0f4a07cf98d1c2a 0.0s done
+#19 exporting attestation manifest sha256:cb64a1f2987f8fc5665dfb8b0590c0f738f8c0de443d85afa2b8ce35befe59c9
+#19 exporting attestation manifest sha256:cb64a1f2987f8fc5665dfb8b0590c0f738f8c0de443d85afa2b8ce35befe59c9 0.6s done
+#19 exporting manifest list sha256:ba216a95d5a15d9f0f48dcc6246c58c9e77df6466219ee74a1d38c4f8cff30b3
+#19 exporting manifest list sha256:ba216a95d5a15d9f0f48dcc6246c58c9e77df6466219ee74a1d38c4f8cff30b3 0.3s done
+#19 naming to docker.io/library/catraca-app:latest
+#19 naming to docker.io/library/catraca-app:latest 0.0s done
+#19 unpacking to docker.io/library/catraca-app:latest 0.1s done
+#19 DONE 1.5s
+
+#20 resolving provenance for metadata file
+#20 DONE 0.0s
+ Image catraca-app Built 
+ Network catraca_default Creating 
+ Network catraca_default Created 
+ Container catraca-db-1 Creating 
+ Container catraca-db-1 Created 
+ Container catraca-app-1 Creating 
+ Container catraca-app-1 Created 
+ Container catraca-db-1 Starting 
+ Container catraca-db-1 Started 
+ Container catraca-db-1 Waiting 
+ Container catraca-db-1 Healthy 
+ Container catraca-app-1 Starting 
+ Container catraca-app-1 Started 
+ Container catraca-app-1 Waiting 
+ Container catraca-db-1 Waiting 
+ Container catraca-db-1 Healthy 
+ Container catraca-app-1 Healthy 
+[up] Catraca no ar.
+[up] $WEB = http://localhost:3000
+[up] $API = http://localhost:3000
+[up] Contas da seed e chave de parceiro: README.md, seção "Credenciais".
+exit=0
+302
+set-cookie: catraca_sessao=8-gUho…; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /organizador
+200
+ok: <h1>Área do organizador</h1>
+ok: <span class="nav-usuario">Organizador A</span>
+200
+1
+=== G1
+
+> catraca@0.1.0 gates
+> node scripts/gates.mjs
+
+[gates] projeto Compose "catraca-gates" (banco próprio, sem portas no host)
+ Image catraca-gates-gates Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 567B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.34kB done
+#2 DONE 0.2s
+
+#3 [internal] load metadata for docker.io/library/node:24-bookworm-slim
+#3 DONE 0.4s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 85B done
+#4 DONE 0.2s
+
+#5 [internal] load build context
+#5 transferring context: 4.68kB done
+#5 DONE 0.3s
+
+#6 [base 1/2] FROM docker.io/library/node:24-bookworm-slim@sha256:873f586f3794f52281bd039bf02c048a0be08fde619338f9941bad1eb6b34530
+#6 resolve docker.io/library/node:24-bookworm-slim@sha256:873f586f3794f52281bd039bf02c048a0be08fde619338f9941bad1eb6b34530
+#6 resolve docker.io/library/node:24-bookworm-slim@sha256:873f586f3794f52281bd039bf02c048a0be08fde619338f9941bad1eb6b34530 0.5s done
+#6 DONE 0.5s
+
+#7 [base 2/2] WORKDIR /app
+#7 CACHED
+
+#8 [deps 1/2] COPY package.json package-lock.json ./
+#8 CACHED
+
+#9 [deps 2/2] RUN npm ci --no-audit --no-fund
+#9 CACHED
+
+#10 [gates 1/1] COPY . .
+#10 CACHED
+
+#11 exporting to image
+#11 exporting layers done
+#11 exporting manifest sha256:20d108a1a12d8b54efb4106503a4c05653e21d2fe3a1d570baf4503861effbf0
+#11 exporting manifest sha256:20d108a1a12d8b54efb4106503a4c05653e21d2fe3a1d570baf4503861effbf0 0.4s done
+#11 exporting config sha256:43b175149ae1a8bf8337844fb58f2f2c4c6d737266de5acb36735c112ee8fc18
+#11 exporting config sha256:43b175149ae1a8bf8337844fb58f2f2c4c6d737266de5acb36735c112ee8fc18 0.4s done
+#11 exporting attestation manifest sha256:dda3444734cde3ba0bb11c027ff3a1b6d6565c20c368aa406b5a29e130a168c4
+#11 exporting attestation manifest sha256:dda3444734cde3ba0bb11c027ff3a1b6d6565c20c368aa406b5a29e130a168c4 0.7s done
+#11 exporting manifest list sha256:06ff0dbbf7d9b4710f2385cd9e0e136c3aa515f91c909a0b506d44eca4639ff2
+#11 exporting manifest list sha256:06ff0dbbf7d9b4710f2385cd9e0e136c3aa515f91c909a0b506d44eca4639ff2 0.3s done
+#11 naming to docker.io/library/catraca-gates-gates:latest
+#11 naming to docker.io/library/catraca-gates-gates:latest 0.0s done
+#11 unpacking to docker.io/library/catraca-gates-gates:latest 0.1s done
+#11 DONE 2.3s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+ Image catraca-gates-gates Built 
+time="2026-11-26T00:02:24-03:00" level=warning msg="No services to build"
+ Network catraca-gates_default Creating 
+ Network catraca-gates_default Created 
+ Container catraca-gates-db-1 Creating 
+ Container catraca-gates-db-1 Created 
+ Container catraca-gates-db-1 Starting 
+ Container catraca-gates-db-1 Started 
+time="2026-11-26T00:02:28-03:00" level=warning msg="No services to build"
+ Container catraca-gates-db-1 Waiting 
+ Container catraca-gates-db-1 Healthy 
+ Container catraca-gates-gates-run-a0614d9fcdcc Creating 
+ Container catraca-gates-gates-run-a0614d9fcdcc Created 
+
+=== gates: lint (eslint .) ===
+
+=== gates: typecheck (tsc --noEmit) ===
+
+=== gates: testes (vitest run) ===
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.1.2 [39m[90m/app[39m
+
+ [32m✓[39m test/f02/cadastro.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 1998[2mms[22m[39m
+   [32m✓[39m F02 cadastro [2m(16)[22m
+     [33m[2m✓[22m[39m F02-CA01 cadastro válido cria participante, abre sessão e redireciona para /[33m 388[2mms[22m[39m
+ [32m✓[39m test/f02/login.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 2301[2mms[22m[39m
+   [32m✓[39m F02 login [2m(12)[22m
+     [33m[2m✓[22m[39m F02-CA04 organizador A da seed vai para /organizador[33m 347[2mms[22m[39m
+     [33m[2m✓[22m[39m voltar malicioso leva à vitrine[33m 434[2mms[22m[39m
+ [32m✓[39m test/f02/sessao.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 1704[2mms[22m[39m
+   [32m✓[39m F02 sessão [2m(12)[22m
+     [33m[2m✓[22m[39m sessão vale 12 horas[33m 360[2mms[22m[39m
+ [32m✓[39m test/f02/protecao.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 1373[2mms[22m[39m
+ [32m✓[39m test/f01/migrations.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 641[2mms[22m[39m
+ [32m✓[39m test/f02/origem.test.ts [2m([22m[2m7 tests[22m[2m)[22m[33m 737[2mms[22m[39m
+   [32m✓[39m F02 checagem de origem [2m(7)[22m
+     [33m[2m✓[22m[39m POST com Origin de outro site é bloqueado sem efeito[33m 393[2mms[22m[39m
+ [32m✓[39m test/f01/core.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 529[2mms[22m[39m
+ [32m✓[39m test/f01/seed.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 659[2mms[22m[39m
+ [32m✓[39m test/f01/config.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 94[2mms[22m[39m
+ [32m✓[39m test/f01/pages.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 462[2mms[22m[39m
+ [32m✓[39m test/f02/navegacao.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 621[2mms[22m[39m
+ [32m✓[39m test/f01/layout.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 67[2mms[22m[39m
+ [32m✓[39m test/f02/cookie.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 74[2mms[22m[39m
+ [32m✓[39m test/f01/cli.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 276[2mms[22m[39m
+ [32m✓[39m test/f01/modules.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 329[2mms[22m[39m
+ [32m✓[39m test/f02/retorno.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 77[2mms[22m[39m
+ [32m✓[39m test/f02/cf01-seed-login.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 660[2mms[22m[39m
+   [32m✓[39m CF01 contas da seed (F01) entram pelo login (F02) [2m(2)[22m
+     [33m[2m✓[22m[39m CF01 organizador A da seed entra com catraca123 e chega a /organizador[33m 394[2mms[22m[39m
+ [32m✓[39m test/f01/health.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 316[2mms[22m[39m
+ [32m✓[39m test/f01/html.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 68[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m19 passed[39m[22m[90m (19)[39m
+[2m      Tests [22m [1m[32m127 passed[39m[22m[90m (127)[39m
+[2m   Start at [22m 00:02:40
+[2m   Duration [22m 18.14s[2m (tests 83%, setup 13%, transform 3%, import 1%, worker 1%)[22m
+
+[2m    Isolate [22m [33m19 workers spawned[39m[2m · ~112ms startup each (spawn + environment, per file)[22m
+[2m            [22m [2mat least ~2.01s faster with [22m[33misolate: false[39m[2m — reuses workers across files instead of one per file[22m
+
+JSON report written to /tmp/catraca-gates-lC4PhL/vitest.json
+
+[gates] lint: ok
+[gates] typecheck: ok
+[gates] testes: ok (127 executados, 0 falharam)
+[gates] resultado: OK
+gates_exit=0
+=== TEARDOWN
+
+> catraca@0.1.0 down
+> node scripts/down.mjs
+
+[down] Derrubando a Catraca (projeto Compose "catraca")...
+ Container catraca-app-1 Stopping 
+ Container catraca-app-1 Stopped 
+ Container catraca-app-1 Removing 
+ Container catraca-app-1 Removed 
+ Container catraca-db-1 Stopping 
+ Container catraca-db-1 Stopped 
+ Container catraca-db-1 Removing 
+ Container catraca-db-1 Removed 
+ Network catraca_default Removing 
+ Network catraca_default Removed 
+[down] Pronto: containers e rede removidos; volume do banco preservado.
+down_exit=0
+desafio-arquitetura-era-ia-1-edge-1
+desafio-arquitetura-era-ia-1-app-1
+desafio-arquitetura-era-ia-1-gateway-1
+desafio-arquitetura-era-ia-1-gateway-db-1
+desafio-arquitetura-era-ia-1-provider-fake-1
+bs-minio
+bs-mailhog
+bs-postgres
+catraca_db-data
+=== FIM
+2026-11-26T00:03:08-03:00

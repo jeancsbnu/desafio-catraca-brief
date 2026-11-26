@@ -12,10 +12,10 @@
     "F02": {
       "nome": "Contas e acesso",
       "wave": 2,
-      "status": "especificada",
-      "branch": null,
-      "pr": null,
-      "ultimo_relatorio": null
+      "status": "concluida",
+      "branch": "feat/F02-contas-e-acesso",
+      "pr": 2,
+      "ultimo_relatorio": "docs/features/F02-contas-e-acesso/reports/2026-11-26-000324.md"
     },
 
     "F03": {

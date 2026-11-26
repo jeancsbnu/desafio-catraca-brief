@@ -39,6 +39,8 @@ Contas criadas pela seed em toda subida (sempre com estes dados, sem duplicar):
 | Organizador B | `organizador.b@catraca.test` | `catraca123` | organizador |
 | Participante | `participante@catraca.test` | `catraca123` | participante |
 
+Entrar em `$WEB/entrar`; novas contas de participante em `$WEB/cadastro` (organizador não se cadastra).
+
 **Chave de parceiro:** `parceiro-catraca-dev`, enviada no cabeçalho `X-Api-Key` (a API de parceiros é entregue pela F07). Pode ser trocada pela variável `PARTNER_API_KEY`.
 
 O modo padrão usa o gateway de pagamento **simulado**, sem nenhuma chave de pagamento real.
@@ -67,6 +69,7 @@ O modo padrão usa o gateway de pagamento **simulado**, sem nenhuma chave de pag
 - **R07 sob concorrência:** a completar na F05.
 - **Resposta assíncrona do gateway:** a solicitação de pagamento grava uma tentativa (`payment_attempts`, só com os 4 últimos dígitos do cartão) com o resultado sorteado pelo final do cartão e um prazo absoluto no relógio do banco (`due_at = requested_at + atraso`, com `clock_timestamp()`), e responde na hora. Um worker no processo da aplicação varre o banco a cada 200 ms com `SELECT … FOR UPDATE SKIP LOCKED` e entrega cada tentativa vencida ao tratador registrado dentro da mesma transação que grava `delivered_at`: efeito e marca são confirmados juntos, exatamente uma vez, mesmo com mais de um worker; se o tratador falha, tudo é desfeito e a tentativa volta com espera crescente (0,2 s até 5 s). Como o estado está no banco, um reinício não perde nada: a primeira varredura roda ao subir e entrega o que venceu com a aplicação parada; o resto sai no prazo original. O atraso é sorteado em faixas internas mais estreitas que as do brief (2,2–4,0 s e 30,5–38,5 s) para que, somadas a espera da varredura e a entrega, o efeito caia sempre entre 2 e 5 s ou entre 30 e 40 s, com folga para quem observa por consulta periódica. A escala de atraso (`GATEWAY_DELAY_SCALE`) só vale com `NODE_ENV=test`. Efeito nos ingressos e resposta tardia: F05.
 - **Isolamento da avaliação:** cada feature tem um contrato (`contract.md`) congelado antes da implementação; quem implementa não avalia. O avaliador é um agente com contexto novo que roda o contrato inteiro num clone limpo do commit avaliado e grava um relatório imutável em `reports/` (um arquivo novo por avaliação). Só ele muda o estado da feature para `concluida` ou `reprovada`.
+- **Sessão e acesso:** cookie `catraca_sessao` assinado (HMAC-SHA256), `HttpOnly`, `SameSite=Lax`, válido por 12 h, que leva só um token aleatório; a sessão fica na tabela `sessions` (hash do token), por isso `Sair` a encerra de verdade e ela sobrevive a reinícios. Toda a área `/organizador` é protegida por um hook global (visitante → `/entrar`, participante → `403`), e formulários vindos de outro site são recusados pela checagem de origem.
 
 ## Variáveis de ambiente
 
@@ -77,7 +80,7 @@ Todas opcionais (modelo comentado em [`.env.example`](.env.example)):
 | `CATRACA_PORT` | `3000` | Porta publicada no host (`npm run up`) |
 | `COMPOSE_PROJECT_NAME` | `catraca` | Nome do projeto do Compose; os gates usam `<nome>-gates` |
 | `PARTNER_API_KEY` | `parceiro-catraca-dev` | Chave da API de parceiros (`X-Api-Key`) |
-| `SESSION_SECRET` | segredo de desenvolvimento | Assinatura das sessões (mínimo de 32 caracteres) |
+| `SESSION_SECRET` | segredo de desenvolvimento | Assinatura das sessões (mínimo de 32 caracteres); trocá-lo encerra todas as sessões abertas |
 | `LOG_LEVEL` | `info` | Nível do log JSON da aplicação |
 
 O gateway roda sempre no modo `simulado`; a escala de atraso do gateway (`GATEWAY_DELAY_SCALE`) só é lida no ambiente de testes.
