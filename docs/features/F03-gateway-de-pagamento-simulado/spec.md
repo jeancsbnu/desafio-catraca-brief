@@ -554,3 +554,18 @@ Decisões tomadas pela política de auto-aceite (spec-writer, Batch Mode, "Auto-
 ## 10. Desvios da implementação
 
 Preenchido pelo implementador na fase Documentação: cada diferença entre esta spec e o que foi implementado, com o motivo.
+
+| # | Desvio | Motivo |
+|---|---|---|
+| D01 | Migration: `app/migrations/20261126022045_create_payment_attempts.sql` (SQL da seção 6, com um comentário de cabeçalho). | Nome final com o timestamp gerado na implementação. |
+| D02 | A linha de resultado do `gateway:simular` usa o tempo calculado no SQL, `round(round(EXTRACT(EPOCH FROM delivered_at − requested_at), 3), 1)`, em vez de `toFixed(1)` sobre os `Date` do driver. | Os `Date` do `pg` truncam microssegundos e o `toFixed` arredonda em binário; arredondar no banco, a partir do valor com 3 casas, dá exatamente o número que o contrato compara (`<s>` com 3 casas arredondado a uma). |
+| D03 | A CLI consulta a tentativa com `repositorio.buscarTentativa` (que traz essa coluna calculada), não com `consultarTentativa`; a solicitação continua por `criarGatewaySimulado(...).solicitarDiagnostico`. | Consequência do D02; a CLI é da própria F03. |
+| D04 | Tipo `LoggerGateway` (em `types.ts`) para a opção `log` e `loggerSilencioso` (em `gateway.ts`); `public.ts` também exporta os tipos `EntregaResultado`, `TratadorResultado`, `ResultadoVarredura`, `LoggerGateway`, `OrigemTentativa`, `FaixaMs`, `CodigoErroGateway` e `OpcoesGateway`. | A F05 precisa tipar o tratador e a fábrica sem importar arquivos internos. |
+| D05 | Espera crescente: o expoente é `least(delivery_attempts, 10)` em `0.2 * 2 ^ …`. | Evita estouro do `double` depois de ~1000 falhas; o comportamento é o mesmo (0,2 × 2⁵ já passa do teto de 5 s). |
+| D06 | `marcarEntregue` e `registrarFalha` devolvem `delivery_attempts` (usado no campo `tentativa` dos logs). | Log com o número real de tentativas. |
+| D07 | A fase 1 já criou `index.ts`, `public.ts` e `types.ts` (versões mínimas, completadas na fase 2) e o auxiliar `app/test/helpers/gateway.ts` entrou na fase 2. | O carregador da F01 exige `index.ts` em toda pasta de `src/features/`; os testes da fase 2 usam o auxiliar. |
+| D08 | P23 não foi necessária: os testes da F01 já comparam módulos e comandos com `expect.arrayContaining`. Nenhum arquivo da F01 foi editado. | — |
+| D09 | `cli.test.ts` captura a saída pelos callbacks `stdout`/`stderr` do `runCli` (F01), não por `vi.spyOn(process.stdout.write)`. | Mesma observação, sem interceptar o processo do Vitest. |
+| D10 | `retomada.test.ts`: a aplicação B do primeiro teste usa worker de 20 ms (a tolerância de 0,25 s sobre o prazo fica com folga); o segundo teste sobe B com `backgroundJobs: true` e `ready()` (caminho real do `onReady`, intervalo padrão de 200 ms). | A spec não fixava o intervalo; o segundo teste exercita o mesmo caminho do reinício do container. |
+| D11 | Testes a mais: `faixas internas ficam dentro das faixas do brief` (tabela), `falhas seguidas do tratador aumentam a espera até 5 s` (worker) e `gateway:simular com erro inesperado sai com 1` (cli); `escala-atraso` confere também `NODE_ENV=development`. | Cobrem regras da spec que não tinham teste próprio. |
+| D12 | `--sem-esperar` repetido conta como argumento extra (mensagem de uso, código 2). | A spec não tratava o caso; "argumento extra" é a regra mais próxima. |

@@ -21,6 +21,7 @@ Todos na raiz do repositório. Pré-requisitos do host: Docker (com Compose v2),
 | Gates (lint, typecheck, testes) em container, projeto Compose `<projeto>-gates` | `npm run gates` | pronto |
 | Gates com filtro do Vitest (nome de arquivo ou `-t <nome do teste>`) | `npm run gates -- <filtro>` | pronto |
 | Comandos de diagnóstico dentro do container (`help`, `migrate`, `seed`, `config`) | `docker compose exec app catraca <comando>` | pronto |
+| Simula um pagamento (finais `0001`–`0004`) e mostra resultado e tempo | `docker compose exec app catraca gateway:simular <cartão>` | pronto |
 | Banco (psql) | `docker compose exec db psql -U catraca -d catraca` | pronto |
 
 - **Endereços:** `$WEB` = `$API` = `http://localhost:3000` (produto e API de parceiros no mesmo servidor).
