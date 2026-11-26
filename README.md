@@ -27,6 +27,7 @@ npm run down    # derruba containers e rede; o volume do banco é preservado
 | API de parceiros (`$API`) | `http://localhost:3000` |
 | Saúde | `http://localhost:3000/health` |
 | Área do organizador | `http://localhost:3000/organizador` (`$WEB/organizador`; organizadores da seed) |
+| Vitrine, página do evento e Meus ingressos | `http://localhost:3000/`, `http://localhost:3000/eventos/{id}`, `http://localhost:3000/meus-ingressos` (participante) |
 
 `$WEB` e `$API` são o mesmo servidor. API de parceiros (todas com o cabeçalho `X-Api-Key`): `GET $API/api/partner/events`, `POST $API/api/partner/events/{eventId}/purchases` e `GET $API/api/partner/tickets/{ticketId}`. Exemplo: `curl -s -H "X-Api-Key: $KEY" "$API/api/partner/events"`.
 
