@@ -30,7 +30,7 @@
     "F04": {
       "nome": "Gestão de eventos",
       "wave": 3,
-      "status": "em_implementacao",
+      "status": "aguardando_avaliacao",
       "branch": "feat/F04-gestao-de-eventos",
       "pr": 4,
       "ultimo_relatorio": null
