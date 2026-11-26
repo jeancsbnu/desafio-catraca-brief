@@ -12,7 +12,7 @@
     "F02": {
       "nome": "Contas e acesso",
       "wave": 2,
-      "status": "em_implementacao",
+      "status": "aguardando_avaliacao",
       "branch": "feat/F02-contas-e-acesso",
       "pr": 2,
       "ultimo_relatorio": null
