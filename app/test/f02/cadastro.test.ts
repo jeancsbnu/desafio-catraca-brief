@@ -189,6 +189,9 @@ describe('F02 cadastro', () => {
     expect(response.headers.location).toBe('/');
     const { rows } = await db.query<{ role: string }>("SELECT role FROM users WHERE email = 'caio@example.com'");
     expect(rows).toEqual([{ role: 'participante' }]);
+    const area = await app.inject({ method: 'GET', url: '/organizador', headers: { cookie: sessionCookieOf(response) } });
+    expect(area.statusCode).toBe(403);
+    expect(area.body).toContain('<h1>Acesso negado</h1>');
   });
 
   it('nome com HTML aparece escapado no topo', async () => {

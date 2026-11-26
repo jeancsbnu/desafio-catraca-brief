@@ -8,6 +8,8 @@ import {
   readCookie,
   verifySignedValue,
 } from './cookie.js';
+import { forbiddenContent, originBlockedContent } from './pages.js';
+import { loginPath } from './return-path.js';
 import { findSessionUser } from './sessions.js';
 import type { SessionUser } from './types.js';
 
@@ -78,6 +80,139 @@ export async function loadSession(request: FastifyRequest, reply: FastifyReply):
   request.log.debug({ motivo: found.reason }, 'contas: cookie de sessão descartado');
   setSessionCookie(reply, clearSessionCookieHeader());
 }
+
+// ---------------------------------------------------------------------------------------------
+// Checagem de origem (métodos que alteram dados, fora de /api/)
+
+const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
+
+/** A requisição veio de outro site? Sem Origin e sem Sec-Fetch-Site: cross-site (ex.: curl) → não. */
+function isForeignOrigin(request: FastifyRequest): boolean {
+  if (request.headers['sec-fetch-site'] === 'cross-site') return true;
+  const origin = request.headers.origin;
+  if (origin === undefined) return false;
+
+  let originUrl: URL;
+  try {
+    originUrl = new URL(origin); // "null" e valores inválidos lançam
+  } catch {
+    return true;
+  }
+  if (originUrl.protocol !== 'http:' && originUrl.protocol !== 'https:') return true;
+
+  const host = request.headers.host;
+  if (host === undefined || host === '') return true;
+  let hostUrl: URL;
+  try {
+    // Mesmo esquema do Origin, para normalizar a porta padrão (http://x:80 ≡ x).
+    hostUrl = new URL(`${originUrl.protocol}//${host}`);
+  } catch {
+    return true;
+  }
+  if (hostUrl.pathname !== '/' || hostUrl.search !== '' || hostUrl.username !== '') return true;
+  return originUrl.host !== hostUrl.host;
+}
+
+/**
+ * onRequest (1º): POST/PUT/PATCH/DELETE vindos de outra origem recebem 403 "Requisição bloqueada"
+ * sem nenhum processamento. Não atua em /api/ (API de parceiros, autenticada por X-Api-Key).
+ */
+export async function originCheck(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+  if (SAFE_METHODS.has(request.method) || isApiPath(request.url)) return;
+  if (!isForeignOrigin(request)) return;
+  request.log.warn(
+    { origin: request.headers.origin, secFetchSite: request.headers['sec-fetch-site'] },
+    'contas: requisição bloqueada por origem',
+  );
+  // A navegação da página mostra quem está logado; a sessão só é lida, nunca alterada.
+  const found = await lookupSession(request);
+  request.user = found?.user ?? null;
+  await reply.page({ title: 'Requisição bloqueada', status: 403, content: originBlockedContent() });
+}
+
+// ---------------------------------------------------------------------------------------------
+// Área do organizador e guardas
+
+function isOrganizerPath(path: string): boolean {
+  return path === '/organizador' || path.startsWith('/organizador/');
+}
+
+/**
+ * A requisição é da área do organizador? Caminho (sem query, decodificado) igual a /organizador ou
+ * abaixo dele, ou rota casada com esse padrão. Vale também para caminhos sem rota (404).
+ */
+export function isOrganizerAreaRequest(request: FastifyRequest): boolean {
+  const rawPath = pathOf(request.url);
+  let path = rawPath;
+  try {
+    path = decodeURIComponent(rawPath);
+  } catch {
+    // Codificação inválida: usa o caminho cru.
+  }
+  const routeUrl = request.routeOptions.url;
+  return isOrganizerPath(path) || isOrganizerPath(rawPath) || (routeUrl !== undefined && isOrganizerPath(routeUrl));
+}
+
+async function sendForbidden(reply: FastifyReply, area: 'organizador' | 'participante'): Promise<void> {
+  await reply.page({ title: 'Acesso negado', status: 403, content: forbiddenContent(area) });
+}
+
+/** Exige organizador: visitante → 302 /entrar; participante → 403 Acesso negado. */
+export async function requireOrganizer(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+  if (request.user === null) {
+    await reply.redirect('/entrar');
+    return;
+  }
+  if (request.user.role !== 'organizador') {
+    await sendForbidden(reply, 'organizador');
+  }
+}
+
+/** onRequest (3º): toda a área do organizador (inclusive rotas futuras) exige organizador. */
+export async function organizerArea(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+  if (!isOrganizerAreaRequest(request)) return;
+  await requireOrganizer(request, reply);
+}
+
+export interface RequireParticipantOptions {
+  /** Página para onde o visitante volta depois do login (padrão: a própria URL em GET/HEAD). */
+  returnTo?: (request: FastifyRequest) => string;
+  /** Deixa o organizador seguir para o handler decidir (padrão: 403 Acesso negado). */
+  allowOrganizer?: boolean;
+}
+
+/**
+ * Exige participante: visitante → 302 /entrar?voltar=<origem>; organizador → 403 Acesso negado,
+ * ou segue com allowOrganizer.
+ */
+export function requireParticipant(
+  options: RequireParticipantOptions = {},
+): (request: FastifyRequest, reply: FastifyReply) => Promise<void> {
+  return async function requireParticipantGuard(request, reply) {
+    const user = request.user;
+    if (user === null) {
+      let destination: string | undefined;
+      if (options.returnTo !== undefined) destination = options.returnTo(request);
+      else if (request.method === 'GET' || request.method === 'HEAD') destination = request.url;
+      await reply.redirect(loginPath(destination));
+      return;
+    }
+    if (user.role === 'organizador' && options.allowOrganizer !== true) {
+      await sendForbidden(reply, 'participante');
+    }
+  };
+}
+
+/** Usuário da sessão. Sem sessão é erro de programação (rota sem guarda) → 500. */
+export function currentUser(request: FastifyRequest): SessionUser {
+  if (request.user === null) {
+    throw new Error('currentUser sem sessão: use requireOrganizer ou requireParticipant na rota');
+  }
+  return request.user;
+}
+
+// ---------------------------------------------------------------------------------------------
+// Cache
 
 /** onSend: páginas HTML de quem está logado não ficam no cache (o "voltar" não as reexibe após Sair). */
 export const noStoreWhenLoggedIn: onSendHookHandler = function noStoreWhenLoggedIn(request, reply, payload, done) {
