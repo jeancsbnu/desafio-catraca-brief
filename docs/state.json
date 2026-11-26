@@ -48,7 +48,7 @@
     "F06": {
       "nome": "Vitrine e Meus ingressos",
       "wave": 5,
-      "status": "em_implementacao",
+      "status": "aguardando_avaliacao",
       "branch": "feat/F06-vitrine-e-meus-ingressos",
       "pr": 6,
       "ultimo_relatorio": null
