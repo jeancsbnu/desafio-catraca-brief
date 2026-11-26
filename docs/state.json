@@ -30,7 +30,7 @@
     "F04": {
       "nome": "Gestão de eventos",
       "wave": 3,
-      "status": "pendente",
+      "status": "especificada",
       "branch": null,
       "pr": null,
       "ultimo_relatorio": null
