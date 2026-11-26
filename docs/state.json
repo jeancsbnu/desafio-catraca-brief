@@ -3,7 +3,7 @@
     "F01": {
       "nome": "Fundação e harness",
       "wave": 1,
-      "status": "pendente",
+      "status": "especificada",
       "branch": null,
       "pr": null,
       "ultimo_relatorio": null
