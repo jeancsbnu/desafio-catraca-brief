@@ -3,7 +3,7 @@
     "F01": {
       "nome": "Fundação e harness",
       "wave": 1,
-      "status": "em_implementacao",
+      "status": "aguardando_avaliacao",
       "branch": "feat/F01-fundacao-e-harness",
       "pr": 1,
       "ultimo_relatorio": null
