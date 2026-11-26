@@ -66,8 +66,8 @@
     "F08": {
       "nome": "Check-in",
       "wave": 5,
-      "status": "especificada",
-      "branch": null,
+      "status": "em_implementacao",
+      "branch": "feat/F08-check-in",
       "pr": null,
       "ultimo_relatorio": null
     },
