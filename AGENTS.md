@@ -93,6 +93,7 @@ Uma wave só começa quando todas as features da wave anterior estão concluída
 | Spec, plano e contrato de cada feature | `docs/features/<ID>-<nome>/spec.md`, `plan.md`, `contract.md` |
 | Relatórios de avaliação | `docs/features/<ID>-<nome>/reports/<AAAA-MM-DD-HHMMSS>.md` |
 | Estado do projeto | `docs/state.json` |
+| Verificação final (Fluxo do avaliador na `main`) | `docs/verificacao-final/` |
 | Aplicação (código, migrations, testes, Dockerfile) | `app/` |
 | Ambientes do Compose (produto e gates) | `compose.yaml`, `compose.gates.yaml` |
 | Comandos do host (`up`, `down`, `gates`) | `scripts/` |
