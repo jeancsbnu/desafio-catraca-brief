@@ -1,0 +1,14 @@
+{
+  "name": "catraca",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Catraca — venda de ingressos para eventos pequenos. Comandos do host (sem dependências): up, down e gates.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "up": "node scripts/up.mjs",
+    "down": "node scripts/down.mjs",
+    "gates": "node scripts/gates.mjs"
+  }
+}

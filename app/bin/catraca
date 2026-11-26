@@ -1,0 +1,4 @@
+#!/bin/sh
+# Atalho da linha de comando de diagnóstico dentro do container da aplicação:
+#   docker compose exec app catraca <comando> [argumentos]
+exec node /app/dist/cli/index.js "$@"
