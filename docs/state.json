@@ -39,7 +39,7 @@
     "F05": {
       "nome": "Compra e ciclo do ingresso",
       "wave": 4,
-      "status": "em_implementacao",
+      "status": "aguardando_avaliacao",
       "branch": "feat/F05-compra-e-ciclo-do-ingresso",
       "pr": 5,
       "ultimo_relatorio": null
