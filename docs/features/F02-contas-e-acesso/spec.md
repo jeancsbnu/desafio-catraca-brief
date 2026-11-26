@@ -625,3 +625,17 @@ Decisões tomadas pela política de auto-aceite (spec-writer, Batch Mode, "Auto-
 ## 10. Desvios da implementação
 
 Preenchido pelo implementador na fase Documentação: cada diferença entre esta spec e o que foi implementado, com o motivo.
+
+| # | Onde | Diferença | Motivo |
+|---|---|---|---|
+| D01 | Migration | Nome final: `app/migrations/20261126022120_create_sessions.sql` (conteúdo idêntico à seção 6) | Timestamp gerado na implementação (P28) |
+| D02 | `safeReturnPath` (5.13) | Além das regras 1–5, o resultado normalizado (`pathname + search`) também precisa começar com `/` sem `//`, e a regra 5 vale depois da normalização (`/./entrar` → `null`) | `new URL('/.//evil.example', base)` normaliza para `//evil.example`, que o navegador trataria como outro host (open redirect) |
+| D03 | `validation.ts` (5.4) e `users.ts` | Nome com caractere de controle (U+0000–U+001F, U+007F) → `Informe o nome`; e-mail com caractere de controle → `Informe um e-mail válido`; no login, e-mail com U+0000 é tratado como inexistente. Tamanhos de nome, e-mail e senha contados em pontos de código | O PostgreSQL recusa U+0000 em `text` (viraria `500`); pontos de código batem com o `char_length` das restrições da tabela `users` |
+| D04 | Páginas de erro dos formulários (5.4, 5.6) | Nome e e-mail repostos já sem os espaços das pontas (como foram validados) | O valor reposto é o mesmo que o servidor avaliou |
+| D05 | `originCheck` (5.2, 5.10) | Ao bloquear, o hook lê a sessão (sem alterá-la nem limpar cookie) só para a navegação da página `Requisição bloqueada` mostrar o usuário; `Origin` com esquema diferente de `http`/`https` ou `Host` que não seja só `host[:porta]` também bloqueia; a comparação normaliza maiúsculas e a porta padrão do esquema do `Origin` | 5.10 pede a navegação do usuário logado nas páginas de bloqueio, mas o `originCheck` roda antes do `loadSession` |
+| D06 | `isOrganizerAreaRequest` (5.2) | Confere o caminho decodificado, o caminho cru e o padrão da rota casada | Redundância barata: o prefixo nunca escapa por uma decodificação |
+| D07 | Cookie (5.1) | Um `Set-Cookie` de sessão na resposta substitui outro posto antes na mesma resposta (ex.: login com cookie inválido devolve só o de criação, não limpeza + criação) | Resposta sem cabeçalhos contraditórios |
+| D08 | `POST /sair` (5.14) | O log `contas: sessão encerrada` sai também sem usuário (sem `userId`) | "userId, se havia" |
+| D09 | Exports internos | Além dos da seção 4: `guards.ts` exporta `sessionTokenOf`, `sessionCookieValueOf`, `setSessionCookie`; `cookie.ts`, `hasSignedValueFormat` (motivo do log de descarte); `sessions.ts`, `hashSessionToken`; `validation.ts`, `MESSAGES` e `hasControlChars`; `routes.ts`, `registerAccountRoutes(app, { dummyPasswordHash })`. A API pública continua só `public.ts` | Organização interna do módulo |
+| D10 | Testes | Arquivo de apoio `app/test/f02/support.ts` (formulários e `Set-Cookie`); testes extras além da seção 7 (guarda que bloqueia não executa o handler, troca de `SESSION_SECRET`, só o hash do token no banco, cadastro/login com sessão aberta, formulários de outras features na checagem de origem, HTML dos formulários). `loginAs`/`sessionCookieFor` foram criados na fase 2 (os testes de login já precisavam deles) | Cobertura e reaproveitamento |
+| D11 | P24 | Nenhum ajuste em teste da F01: o teste de módulos já usa "contém" (`arrayContaining`) | — |
