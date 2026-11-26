@@ -77,7 +77,7 @@
       "wave": 6,
       "status": "em_implementacao",
       "branch": "feat/F09-painel-do-evento",
-      "pr": null,
+      "pr": 9,
       "ultimo_relatorio": null
     }
   }
