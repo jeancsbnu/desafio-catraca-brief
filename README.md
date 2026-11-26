@@ -27,8 +27,9 @@ npm run down    # derruba containers e rede; o volume do banco é preservado
 | API de parceiros (`$API`) | `http://localhost:3000` |
 | Saúde | `http://localhost:3000/health` |
 | Área do organizador | `http://localhost:3000/organizador` (`$WEB/organizador`; organizadores da seed) |
+| Vitrine, página do evento e Meus ingressos | `http://localhost:3000/`, `http://localhost:3000/eventos/{id}`, `http://localhost:3000/meus-ingressos` (participante) |
 
-`$WEB` e `$API` são o mesmo servidor; as rotas da API de parceiros ficam sob `/api/` (entregues pela F07).
+`$WEB` e `$API` são o mesmo servidor. API de parceiros (todas com o cabeçalho `X-Api-Key`): `GET $API/api/partner/events`, `POST $API/api/partner/events/{eventId}/purchases` e `GET $API/api/partner/tickets/{ticketId}`. Exemplo: `curl -s -H "X-Api-Key: $KEY" "$API/api/partner/events"`.
 
 ## Credenciais
 
@@ -42,7 +43,7 @@ Contas criadas pela seed em toda subida (sempre com estes dados, sem duplicar):
 
 Entrar em `$WEB/entrar`; novas contas de participante em `$WEB/cadastro` (organizador não se cadastra).
 
-**Chave de parceiro:** `parceiro-catraca-dev`, enviada no cabeçalho `X-Api-Key` (a API de parceiros é entregue pela F07). Pode ser trocada pela variável `PARTNER_API_KEY`.
+**Chave de parceiro:** `parceiro-catraca-dev`, enviada no cabeçalho `X-Api-Key`. Pode ser trocada pela variável `PARTNER_API_KEY`.
 
 O modo padrão usa o gateway de pagamento **simulado**, sem nenhuma chave de pagamento real.
 
@@ -72,6 +73,7 @@ O modo padrão usa o gateway de pagamento **simulado**, sem nenhuma chave de pag
 - **Check-in atômico:** a decisão de R10 é tomada com a linha do evento travada (`SELECT … FOR UPDATE`, a mesma trava do cancelamento) e a marcação é um `UPDATE` condicional (`confirmed` e sem check-in), então dois check-ins simultâneos liberam uma vez só e um evento cancelado nunca libera entrada.
 - **Isolamento da avaliação:** cada feature tem um contrato (`contract.md`) congelado antes da implementação; quem implementa não avalia. O avaliador é um agente com contexto novo que roda o contrato inteiro num clone limpo do commit avaliado e grava um relatório imutável em `reports/` (um arquivo novo por avaliação). Só ele muda o estado da feature para `concluida` ou `reprovada`.
 - **Sessão e acesso:** cookie `catraca_sessao` assinado (HMAC-SHA256), `HttpOnly`, `SameSite=Lax`, válido por 12 h, que leva só um token aleatório; a sessão fica na tabela `sessions` (hash do token), por isso `Sair` a encerra de verdade e ela sobrevive a reinícios. Toda a área `/organizador` é protegida por um hook global (visitante → `/entrar`, participante → `403`), e formulários vindos de outro site são recusados pela checagem de origem.
+- **API de parceiros:** as três rotas do brief vivem num escopo próprio do Fastify sob `/api/partner`, cujo primeiro passo é conferir a chave `X-Api-Key` (SHA-256 + comparação em tempo constante), antes de ler o corpo, os parâmetros ou o banco: sem chave válida, qualquer caminho sob o prefixo responde `401`. O corpo é lido como texto e interpretado pelo handler, para que JSON malformado e `Content-Type` diferente de `application/json` também virem `422 invalid_request` (e não o `400`/`415` padrão do Fastify); a ordem `422 → 404 → 409` sai de validar o corpo antes de chamar o serviço, que decide evento antes de vaga. A compra é o mesmo serviço da vitrine (`app.tickets.purchase`, canal `api`, sem conta de participante), então lotação, painel, check-in e cancelamento valem igual; a API não guarda estado nem cache (`cache-control: no-store`) e não usa sessão.
 - **Eventos e isolamento:** o evento é sempre carregado por id **e** dono na mesma consulta (evento de outro organizador = inexistente = `404` `Evento não encontrado`, sem nenhum dado), e toda mudança de lotação ou status (e, na F05, toda compra) trava a linha do evento (`SELECT … FOR UPDATE`) antes de ler as vagas ocupadas: a lotação nunca fica abaixo das vagas ocupadas e o cancelamento afeta os ingressos na mesma transação.
 
 ## Variáveis de ambiente

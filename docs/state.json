@@ -48,19 +48,19 @@
     "F06": {
       "nome": "Vitrine e Meus ingressos",
       "wave": 5,
-      "status": "especificada",
-      "branch": null,
-      "pr": null,
-      "ultimo_relatorio": null
+      "status": "concluida",
+      "branch": "feat/F06-vitrine-e-meus-ingressos",
+      "pr": 6,
+      "ultimo_relatorio": "docs/features/F06-vitrine-e-meus-ingressos/reports/2026-11-26-074553.md"
     },
 
     "F07": {
       "nome": "API de parceiros",
       "wave": 5,
-      "status": "especificada",
-      "branch": null,
-      "pr": null,
-      "ultimo_relatorio": null
+      "status": "concluida",
+      "branch": "feat/F07-api-de-parceiros",
+      "pr": 7,
+      "ultimo_relatorio": "docs/features/F07-api-de-parceiros/reports/2026-11-26-075500.md"
     },
 
     "F08": {
