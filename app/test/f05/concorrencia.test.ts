@@ -7,9 +7,12 @@ import { withTransaction } from '../../src/db/transaction.js';
 import { lockEventForUpdate } from '../../src/features/eventos/public.js';
 import type { PurchaseInput, PurchaseResult, TicketService } from '../../src/features/ingressos/public.js';
 import { insertTicket } from '../../src/features/ingressos/repository.js';
+import { createTestApp } from '../helpers/app.js';
 import { testDb } from '../helpers/db.js';
 import { insertTestEvent } from '../helpers/events.js';
 import { seedAccounts, type SeededAccounts } from '../helpers/seed.js';
+import { loginAs } from '../helpers/session.js';
+import { eventFields, postForm } from '../f04/support.js';
 import { CARD_OK, occupiedAndTotal, serviceOn, sleep, warmPool } from './support.js';
 
 let pool: Db;
@@ -211,6 +214,72 @@ describe('F05 concorrência: lotação sob rajada (R07)', () => {
     const resultA = (await purchaseA) as PurchaseResult;
     expect(resultA.ok).toBe(true);
     expect(await occupiedAndTotal(testDb(), a.id)).toEqual({ occupied: 1, total: 1 });
+  });
+
+  it('CF05 redução de lotação concorrente com a rajada nunca deixa ocupadas acima da lotação final', async () => {
+    const { app } = await createTestApp();
+    const accounts = await seedAccounts();
+    const cookieA = await loginAs(app, 'organizador.a@catraca.test');
+    const statuses: number[] = [];
+    for (let round = 1; round <= 5; round += 1) {
+      const event = await newEvent(accounts, 5);
+      const editing = (async () => {
+        await sleep(round - 1); // a edição cai em pontos diferentes da rajada
+        return postForm(
+          app,
+          `/organizador/eventos/${event.id}/editar`,
+          { ...eventFields({ nome: event.name, local: event.location, lotacao: '3', preco: '10,00' }) },
+          cookieA,
+        );
+      })();
+      const [results, edit] = await Promise.all([burst(Array.from({ length: 30 }, (_, i) => api(event.id, i + 1))), editing]);
+      statuses.push(edit.statusCode);
+      const { rows } = await testDb().query<{ capacity: number }>('SELECT capacity FROM events WHERE id = $1', [event.id]);
+      const { occupied, total } = await occupiedAndTotal(testDb(), event.id);
+      const created = results.filter((result) => result.ok).length;
+      expect(created + results.filter((result) => !result.ok && result.reason === 'sold_out').length).toBe(30);
+      expect(total).toBe(created);
+      if (edit.statusCode === 302) {
+        expect(rows[0]?.capacity, `rodada ${round}`).toBe(3);
+        expect(occupied, `rodada ${round}`).toBeLessThanOrEqual(3);
+      } else {
+        expect(edit.statusCode, `rodada ${round}`).toBe(422);
+        expect(edit.body).toContain('A lotação não pode ficar menor que as vagas ocupadas');
+        expect(rows[0]?.capacity, `rodada ${round}`).toBe(5);
+        expect(occupied, `rodada ${round}`).toBeLessThanOrEqual(5);
+      }
+    }
+    expect(statuses.every((status) => status === 302 || status === 422)).toBe(true);
+  });
+
+  it('CF06 cancelamento concorrente com a rajada não deixa ingresso pending nem confirmed', async () => {
+    const { app } = await createTestApp();
+    const accounts = await seedAccounts();
+    const cookieA = await loginAs(app, 'organizador.a@catraca.test');
+    for (let round = 1; round <= 5; round += 1) {
+      const event = await newEvent(accounts, 5);
+      const cancelling = (async () => {
+        await sleep(round - 1);
+        return postForm(app, `/organizador/eventos/${event.id}/cancelar`, { confirmar: 'sim' }, cookieA);
+      })();
+      const [results, cancel] = await Promise.all([
+        burst(Array.from({ length: 30 }, (_, i) => api(event.id, i + 1))),
+        cancelling,
+      ]);
+      expect(cancel.statusCode, `rodada ${round}`).toBe(302);
+      const created = results.filter((result) => result.ok).length;
+      const refused = results.filter((result) => !result.ok && (result.reason === 'event_not_available' || result.reason === 'sold_out'));
+      expect(created + refused.length, `rodada ${round}`).toBe(30);
+      expect(created, `rodada ${round}`).toBeLessThanOrEqual(5);
+      const { rows } = await testDb().query<{ status: string; n: number; same_tx: boolean }>(
+        `SELECT t.status, count(*) AS n, bool_and(t.status_changed_at = e.cancelled_at) AS same_tx
+           FROM tickets t JOIN events e ON e.id = t.event_id WHERE t.event_id = $1 GROUP BY t.status`,
+        [event.id],
+      );
+      expect(rows.filter((row) => row.status === 'pending' || row.status === 'confirmed'), `rodada ${round}`).toEqual([]);
+      expect(rows.reduce((sum, row) => sum + row.n, 0)).toBe(created);
+      expect(rows.every((row) => row.same_tx)).toBe(true);
+    }
   });
 
   it('a compra que esperou a trava enxerga o ingresso de quem a segurava', async () => {

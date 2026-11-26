@@ -8,7 +8,8 @@ import {
   type EventStatus,
   type ManagementSectionContext,
 } from '../../src/features/eventos/public.js';
-import { createTestApp } from '../helpers/app.js';
+// Módulos de F01–F04 (sem o ingressos da F05, que registra o próprio tratador/provedor).
+import { createBaseTestApp as createTestApp } from '../helpers/base-features.js';
 import { insertTestEvent } from '../helpers/events.js';
 import { seedAccounts } from '../helpers/seed.js';
 import { sessionCookieFor } from '../helpers/session.js';

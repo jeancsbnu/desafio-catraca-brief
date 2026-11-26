@@ -39,6 +39,7 @@ export {
   listTicketsByEvent,
   summarizeEventTickets,
 } from './repository.js';
+export { markTicketCheckedIn } from './lifecycle.js';
 export {
   computeAvailableSeats,
   countOccupiedSeats,

@@ -2,7 +2,8 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { loadConfig } from '../../src/config.js';
 import { createPool } from '../../src/db/pool.js';
 import { criarGatewaySimulado, type TratadorResultado } from '../../src/features/gateway/public.js';
-import { createTestApp } from '../helpers/app.js';
+// Módulos de F01–F04 (sem o ingressos da F05, que registra o próprio tratador/provedor).
+import { createBaseTestApp as createTestApp } from '../helpers/base-features.js';
 import { testDatabaseUrl, testDb } from '../helpers/db.js';
 import { aguardarEntrega, vencerTentativas } from '../helpers/gateway.js';
 

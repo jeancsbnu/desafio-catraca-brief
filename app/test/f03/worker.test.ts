@@ -1,7 +1,8 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { loadOrder } from '../../src/features/gateway/index.js';
 import { ErroGateway, type EntregaResultado } from '../../src/features/gateway/public.js';
-import { createTestApp } from '../helpers/app.js';
+// Módulos de F01–F04 (sem o ingressos da F05, que registra o próprio tratador/provedor).
+import { createBaseTestApp as createTestApp } from '../helpers/base-features.js';
 import { testDb } from '../helpers/db.js';
 import { aguardarEntrega, vencerTentativas } from '../helpers/gateway.js';
 
