@@ -48,8 +48,8 @@
     "F06": {
       "nome": "Vitrine e Meus ingressos",
       "wave": 5,
-      "status": "especificada",
-      "branch": null,
+      "status": "em_implementacao",
+      "branch": "feat/F06-vitrine-e-meus-ingressos",
       "pr": null,
       "ultimo_relatorio": null
     },
