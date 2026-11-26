@@ -1,5 +1,5 @@
 // SQL da tabela payment_attempts. Todos os instantes vêm do relógio do banco.
-import type { Queryable } from '../../db/pool.js';
+import type { DbClient, Queryable } from '../../db/pool.js';
 import { ErroGateway } from './erros.js';
 import type { OrigemTentativa, ResultadoPagamento, TentativaPagamento } from './types.js';
 
@@ -79,6 +79,73 @@ export async function inserirTentativa(
 export async function buscarTentativa(executor: Queryable, id: string): Promise<LinhaTentativa | null> {
   const { rows } = await executor.query<LinhaTentativa>(`SELECT ${COLUNAS} FROM payment_attempts WHERE id = $1`, [id]);
   return rows[0] ?? null;
+}
+
+/**
+ * Trava a próxima tentativa vencida de uma das origens (dentro da transação de entrega).
+ * SKIP LOCKED: outro worker nunca espera pela mesma linha; FOR UPDATE reavalia o WHERE depois da
+ * trava, então uma tentativa recém-entregue por outro worker não volta.
+ */
+export async function travarProximaVencida(
+  client: DbClient,
+  origens: readonly OrigemTentativa[],
+): Promise<LinhaTentativa | null> {
+  if (origens.length === 0) return null;
+  const { rows } = await client.query<LinhaTentativa>(
+    `SELECT ${COLUNAS}
+       FROM payment_attempts
+      WHERE delivered_at IS NULL
+        AND next_delivery_at <= now()
+        AND origin = ANY($1::text[])
+      ORDER BY next_delivery_at, id
+      LIMIT 1
+        FOR UPDATE SKIP LOCKED`,
+    [origens],
+  );
+  return rows[0] ?? null;
+}
+
+/** Marca a entrega na mesma transação do tratador; devolve null se a linha já estava entregue. */
+export async function marcarEntregue(
+  client: DbClient,
+  id: string,
+): Promise<{ requestedAt: Date; deliveredAt: Date; deliveryAttempts: number } | null> {
+  const { rows } = await client.query<{ requested_at: Date; delivered_at: Date; delivery_attempts: number }>(
+    `UPDATE payment_attempts
+        SET delivered_at = clock_timestamp(),
+            delivery_attempts = delivery_attempts + 1,
+            last_error = NULL,
+            updated_at = clock_timestamp()
+      WHERE id = $1 AND delivered_at IS NULL
+      RETURNING requested_at, delivered_at, delivery_attempts`,
+    [id],
+  );
+  const row = rows[0];
+  return row === undefined
+    ? null
+    : { requestedAt: row.requested_at, deliveredAt: row.delivered_at, deliveryAttempts: row.delivery_attempts };
+}
+
+/**
+ * Falha de entrega (fora da transação desfeita): conta a tentativa, guarda o erro e adia a próxima
+ * entrega com espera crescente 0,2 s × 2^(n−1), até 5 s (o expoente usa o valor anterior e é
+ * limitado a 10 só para não estourar o double; 0,2 × 2^5 já passa de 5 s).
+ */
+export async function registrarFalha(db: Queryable, id: string, mensagem: string): Promise<number | null> {
+  const { rows } = await db.query<{ delivery_attempts: number }>(
+    `UPDATE payment_attempts
+        SET delivery_attempts = delivery_attempts + 1,
+            last_error = left($2, 500),
+            next_delivery_at = greatest(
+              due_at,
+              clock_timestamp() + make_interval(secs => least(0.2 * 2 ^ least(delivery_attempts, 10), 5))
+            ),
+            updated_at = clock_timestamp()
+      WHERE id = $1 AND delivered_at IS NULL
+      RETURNING delivery_attempts`,
+    [id, mensagem],
+  );
+  return rows[0]?.delivery_attempts ?? null;
 }
 
 /** Linha do banco → tipo público (o resultado só aparece depois da entrega). */
