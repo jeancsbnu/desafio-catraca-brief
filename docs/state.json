@@ -57,7 +57,7 @@
     "F07": {
       "nome": "API de parceiros",
       "wave": 5,
-      "status": "pendente",
+      "status": "especificada",
       "branch": null,
       "pr": null,
       "ultimo_relatorio": null
