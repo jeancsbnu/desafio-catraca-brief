@@ -66,7 +66,7 @@
     "F08": {
       "nome": "Check-in",
       "wave": 5,
-      "status": "em_implementacao",
+      "status": "aguardando_avaliacao",
       "branch": "feat/F08-check-in",
       "pr": 8,
       "ultimo_relatorio": null
