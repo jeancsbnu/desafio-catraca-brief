@@ -1,0 +1,375 @@
+inicio: 2026-11-26T07:45:01-03:00 commit=b5280fb43ee761baa95e7c2ade36f01f839d26ef clone=/tmp/catraca-f07-eval-20261126074501
+b5280fb43ee761baa95e7c2ade36f01f839d26ef
+0
+0
+== down inicial
+> catraca@0.1.0 down
+> node scripts/down.mjs
+
+[down] Derrubando a Catraca (projeto Compose "catraca")...
+[down] Pronto: containers e rede removidos; volume do banco preservado.
+Error response from daemon: get catraca_db-data: no such volume
+0
+== up
+up exit=0
+ Container catraca-app-1 Healthy 
+[up] Catraca no ar.
+[up] $WEB = http://localhost:3000
+[up] $API = http://localhost:3000
+[up] Contas da seed e chave de parceiro: README.md, seção "Credenciais".
+b00.sh
+b01.sh
+b02.sh
+b03.sh
+b04.sh
+b05.sh
+b06.sh
+b07.sh
+b08.sh
+b09.sh
+b10.sh
+b11.sh
+b12.sh
+b13.sh
+b14.sh
+full.log
+up.log
+
+######## Preparacao (2026-11-26T07:45:53-03:00)
+0
+b5280fb43ee761baa95e7c2ade36f01f839d26ef
+0
+sem .env
+REPO='/tmp/catraca-f07-eval-20261126074501'
+COMMIT=b5280fb43ee761baa95e7c2ade36f01f839d26ef
+U=1795689953
+PROX=2026-12-15T21:00
+{"status":"ok"} 200 application/json; charset=utf-8
+t|t
+2
+[catraca] módulos: contas, gateway, eventos, ingressos, health, meus-ingressos, parceiros, vitrine
+GATEWAY_MODE=simulado
+GATEWAY_DELAY_SCALE=1
+PARTNER_API_KEY=parceiro-catraca-dev
+302
+set-cookie: catraca_sessao=****; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /organizador
+2
+ausente
+######## fim Preparacao rc=0 (2026-11-26T07:45:54-03:00)
+
+######## C01 (2026-11-26T07:45:54-03:00)
+evt_1r6bzs4uxfj25iyx evt_n3un3vzaxk8664fp
+exit=0
+ausente
+{"id":"evt_n3un3vzaxk8664fp","name":"Evento F07 1795689953-2","startsAt":"2026-12-15T21:00:00-03:00","priceCents":2000,"availableSeats":3}
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+200 application/json; charset=utf-8
+2
+302
+location: /organizador/eventos/evt_1r6bzs4uxfj25iyx?ok=publicado
+200 application/json; charset=utf-8
+{"id":"evt_1r6bzs4uxfj25iyx","name":"Jazz no Porão F07 1795689953","startsAt":"2026-12-15T21:00:00-03:00","priceCents":10000,"availableSeats":2}
+302
+location: /organizador/eventos/evt_1r6bzs4uxfj25iyx?ok=atualizado
+200 application/json; charset=utf-8
+{"id":"evt_1r6bzs4uxfj25iyx","name":"Jazz no Porão F07 1795689953","startsAt":"2026-12-15T21:00:00-03:00","priceCents":15000,"availableSeats":2}
+302
+location: /organizador/eventos/evt_n3un3vzaxk8664fp?ok=cancelado
+200 application/json; charset=utf-8
+ausente
+2
+elementos 1 | campos exatos 1 | iguais ao banco 1 | ids = publicados no banco: sim
+######## fim C01 rc=0 (2026-11-26T07:45:56-03:00)
+
+######## C02 (2026-11-26T07:45:56-03:00)
+evt_jbpq992yrbgh3xo6
+exit=0
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+em menos de 1 s
+1
+tkt_4daddrv2ctcj26ax R82MNW28
+t|t|t|api|t|ana@example.com|10000
+1 2
+0
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+2|2
+######## fim C02 rc=0 (2026-11-26T07:45:57-03:00)
+
+######## C03 (2026-11-26T07:45:57-03:00)
+evt_436nqplcknj19l77
+[falta-buyerEmail] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[falta-cardNumber] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[objeto-vazio] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[email-mal-formado] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[email-null] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[cartao-123] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[cartao-15-digitos] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[cartao-17-digitos] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[cartao-com-letra] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[cartao-com-espacos] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[cartao-numero-json] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[json-malformado] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[nao-e-json] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[array] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[null] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[corpo-vazio] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[sem-content-type] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[text-plain] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[formulario] {"error":"invalid_request"} 422 application/json; charset=utf-8
+3 3 | 3 3
+0|0
+[charset] {"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+[campos-extras] {"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+t|api|t|pending
+3 5
+######## fim C03 rc=0 (2026-11-26T07:45:59-03:00)
+
+######## C04 (2026-11-26T07:45:59-03:00)
+evt_al5siff0jfb8jjpo evt_nkoi1d3axccmeqb5
+302
+location: /organizador/eventos/evt_nkoi1d3axccmeqb5?ok=cancelado
+[evt_0000000000000000] {"error":"event_not_available"} 404 application/json; charset=utf-8
+[evt_al5siff0jfb8jjpo] {"error":"event_not_available"} 404 application/json; charset=utf-8
+[evt_nkoi1d3axccmeqb5] {"error":"event_not_available"} 404 application/json; charset=utf-8
+[nao-e-um-evento] {"error":"event_not_available"} 404 application/json; charset=utf-8
+{"error":"event_not_available"} 404 application/json; charset=utf-8
+5 5
+0|0
+0|0
+302
+location: /organizador/eventos/evt_al5siff0jfb8jjpo?ok=publicado
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+######## fim C04 rc=0 (2026-11-26T07:46:01-03:00)
+
+######## C05 (2026-11-26T07:46:01-03:00)
+evt_6xnpvte16rzwstoo
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+{"error":"sold_out"} 409 application/json; charset=utf-8
+evt_5t1i47vtw7lbtn7k
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+{"error":"sold_out"} 409 application/json; charset=utf-8
+1|1
+1|1
+200 application/json; charset=utf-8
+0
+0
+######## fim C05 rc=0 (2026-11-26T07:46:02-03:00)
+
+######## C06 (2026-11-26T07:46:02-03:00)
+evt_t5shai4mi1wzxe3i
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+[lotado-cartao-123] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[lotado-sem-buyerEmail] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[lotado-json-malformado] {"error":"invalid_request"} 422 application/json; charset=utf-8
+{"error":"sold_out"} 409 application/json; charset=utf-8
+302
+location: /organizador/eventos/evt_t5shai4mi1wzxe3i?ok=cancelado
+[cancelado-cartao-123] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[cancelado-email-mal-formado] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[cancelado-json-malformado] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[cancelado-text-plain] {"error":"invalid_request"} 422 application/json; charset=utf-8
+{"error":"event_not_available"} 404 application/json; charset=utf-8
+evt_etxcn4lwzkvcgkcv
+[rascunho-cartao-123] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[inexistente-cartao-123] {"error":"invalid_request"} 422 application/json; charset=utf-8
+[id-invalido-cartao-123] {"error":"invalid_request"} 422 application/json; charset=utf-8
+0|1
+0|0
+######## fim C06 rc=0 (2026-11-26T07:46:03-03:00)
+
+######## C07 (2026-11-26T07:46:03-03:00)
+rodada 1
+      5 202
+     25 409
+5|5|5|5|t
+0
+rodada 2
+      5 202
+     25 409
+5|5|5|5|t
+0
+rodada 3
+      5 202
+     25 409
+5|5|5|5|t
+0
+5|5
+5|5
+5|5
+######## fim C07 rc=0 (2026-11-26T07:46:15-03:00)
+
+######## C08 (2026-11-26T07:46:15-03:00)
+evt_hypzzk2mc6ppn4p2
+tkt_qmfmxw5uf9dfke7b X5WOU9GO
+{"ticketId":"tkt_qmfmxw5uf9dfke7b","code":"X5WOU9GO","eventId":"evt_hypzzk2mc6ppn4p2","status":"pending","checkedIn":false} 200 application/json; charset=utf-8
+exit=0
+simulando 1 compra(s) simultânea(s) no evento evt_hypzzk2mc6ppn4p2 pelo canal vitrine
+tkt_lma2baamig73cwzx WYXKN4NE
+vitrine|t|participante@catraca.test
+confirmed|6.2
+{"ticketId":"tkt_lma2baamig73cwzx","code":"WYXKN4NE","eventId":"evt_hypzzk2mc6ppn4p2","status":"confirmed","checkedIn":false} 200 application/json; charset=utf-8
+UPDATE 1
+{"ticketId":"tkt_lma2baamig73cwzx","code":"WYXKN4NE","eventId":"evt_hypzzk2mc6ppn4p2","status":"confirmed","checkedIn":true} 200 application/json; charset=utf-8
+[tkt_0000000000000000] {"error":"ticket_not_found"} 404 application/json; charset=utf-8
+[nao-e-um-ingresso] {"error":"ticket_not_found"} 404 application/json; charset=utf-8
+[X5WOU9GO] {"error":"ticket_not_found"} 404 application/json; charset=utf-8
+[TKT_QMFMXW5UF9DFKE7B] {"error":"ticket_not_found"} 404 application/json; charset=utf-8
+{"ticketId":"tkt_qmfmxw5uf9dfke7b","code":"X5WOU9GO","eventId":"evt_hypzzk2mc6ppn4p2","status":"pending","checkedIn":false} 200 application/json; charset=utf-8
+######## fim C08 rc=0 (2026-11-26T07:46:22-03:00)
+
+######## C09 (2026-11-26T07:46:22-03:00)
+evt_u3cy4larn60wam9f evt_0evt3ioynr285ebc
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+302
+location: /organizador/eventos/evt_0evt3ioynr285ebc?ok=cancelado
+[1] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[2] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[3] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[4] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[5] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[6] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[7] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[8] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[9] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[10] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[11] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[12] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[13] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[14] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[15] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[16] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[17] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[18] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[19] {"error":"unauthorized"} 401 application/json; charset=utf-8
+[20] {"error":"not_found"} 404 application/json; charset=utf-8
+[21] {"error":"not_found"} 404 application/json; charset=utf-8
+[22] 200 application/json; charset=utf-8
+27 27
+1|1
+{"ticketId":"<tkt>","code":"<código>","eventId":"evt_u3cy4larn60wam9f","status":"pending","checkedIn":false} 200 application/json; charset=utf-8
+######## fim C09 rc=0 (2026-11-26T07:46:25-03:00)
+
+######## C10 (2026-11-26T07:46:25-03:00)
+evt_9le747j4epo70dqt
+200 application/json; charset=utf-8
+2
+simulando 1 compra(s) simultânea(s) no evento evt_9le747j4epo70dqt pelo canal vitrine
+confirmed|6.2
+200 application/json; charset=utf-8
+1
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+tkt_a01r0cuq9nzof6t1 1QV2WBOG
+200 application/json; charset=utf-8
+0
+{"error":"sold_out"} 409 application/json; charset=utf-8
+t
+pending|29.2
+200 application/json; charset=utf-8
+0
+declined|45.2
+declined|31.599|dentro
+{"ticketId":"tkt_a01r0cuq9nzof6t1","code":"1QV2WBOG","eventId":"evt_9le747j4epo70dqt","status":"declined","checkedIn":false} 200 application/json; charset=utf-8
+200 application/json; charset=utf-8
+1
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+tkt_zdcg6fna2ftdquoh 59SKPP63
+confirmed|5.2
+confirmed|3.803|dentro
+{"ticketId":"tkt_zdcg6fna2ftdquoh","code":"59SKPP63","eventId":"evt_9le747j4epo70dqt","status":"confirmed","checkedIn":false} 200 application/json; charset=utf-8
+200 application/json; charset=utf-8
+0
+2|3
+######## fim C10 rc=0 (2026-11-26T07:47:23-03:00)
+
+######## C11 (2026-11-26T07:47:23-03:00)
+evt_vcw54neh8hrmfqtc
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+tkt_jwmhgmbabc88hkk1 VHPU6BHV tkt_p61fgd5e2hpziucm RLZ8N8ZD
+confirmed|6.2
+t
+302
+location: /organizador/eventos/evt_vcw54neh8hrmfqtc?ok=cancelado
+200 application/json; charset=utf-8
+ausente
+{"error":"event_not_available"} 404 application/json; charset=utf-8
+{"ticketId":"tkt_p61fgd5e2hpziucm","code":"RLZ8N8ZD","eventId":"evt_vcw54neh8hrmfqtc","status":"refunded","checkedIn":false} 200 application/json; charset=utf-8
+{"ticketId":"tkt_jwmhgmbabc88hkk1","code":"VHPU6BHV","eventId":"evt_vcw54neh8hrmfqtc","status":"cancelled","checkedIn":false} 200 application/json; charset=utf-8
+t
+cancelled|46.2
+{"ticketId":"tkt_jwmhgmbabc88hkk1","code":"VHPU6BHV","eventId":"evt_vcw54neh8hrmfqtc","status":"cancelled","checkedIn":false} 200 application/json; charset=utf-8
+0|2
+######## fim C11 rc=0 (2026-11-26T07:48:10-03:00)
+
+######## C12 (2026-11-26T07:48:10-03:00)
+000
+curl_exit=7
+0
+Note: switching to 'b5280fb43ee761baa95e7c2ade36f01f839d26ef'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+b5280fb43ee761baa95e7c2ade36f01f839d26ef
+0
+sem .env
+exit=0
+1
+{"status":"ok"} 200 application/json; charset=utf-8
+0
+GATEWAY_MODE=simulado
+GATEWAY_DELAY_SCALE=1
+PARTNER_API_KEY=parceiro-catraca-dev
+302
+set-cookie: catraca_sessao=****; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /organizador
+evt_plj9kqsza3e0m4ts
+200 application/json; charset=utf-8
+5
+{"ticketId":"<tkt>","code":"<código>","status":"pending"} 202 application/json; charset=utf-8
+confirmed|5.3
+confirmed|3.397|dentro
+{"ticketId":"<tkt>","code":"<código>","eventId":"evt_plj9kqsza3e0m4ts","status":"confirmed","checkedIn":false} 200 application/json; charset=utf-8
+exit=0
+catraca-f07-limpo_db-data
+0
+{"status":"ok"} 200 application/json; charset=utf-8
+######## fim C12 rc=0 (2026-11-26T07:49:17-03:00)
+
+######## C13 (2026-11-26T07:49:17-03:00)
+CF10 CF11 CF12 CF13 F07-CA01 F07-CA02 F07-CA03 F07-CA04 F07-CA05 F07-CA06 F07-CA07 F07-CA08 F07-CA09 F07-CA10 F07-CA11 
+1
+exit=0
+[gates] projeto Compose "catraca-gates" (banco próprio, sem portas no host)
+[gates] lint: ok
+[gates] typecheck: ok
+[gates] testes: ok (42 executados, 0 falharam) [filtro: test/f07]
+[gates] resultado: OK
+######## fim C13 rc=0 (2026-11-26T07:50:28-03:00)
+== G1
+G1 exit=0
+[gates] projeto Compose "catraca-gates" (banco próprio, sem portas no host)
+[gates] lint: ok
+[gates] typecheck: ok
+[gates] testes: ok (340 executados, 0 falharam)
+[gates] resultado: OK
+== down
+ Network catraca_default Removing 
+ Network catraca_default Removed 
+[down] Pronto: containers e rede removidos; volume do banco preservado.
+catraca_db-data
+0
+fim: 2026-11-26T07:53:12-03:00
