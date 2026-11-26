@@ -14,6 +14,7 @@ import {
   ERROR_MESSAGE,
   ORGANIZER_BLOCK,
   SOLD_OUT_BLOCK,
+  SUCCESS_MESSAGE,
   countPaymentAttempts,
   countTickets,
   formBlock,
@@ -21,6 +22,7 @@ import {
   postPurchase,
   purchaseBlock,
   signupParticipant,
+  ticketRows,
 } from './support.js';
 
 const CLEAR_COOKIE = 'catraca_sessao=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax';
@@ -53,6 +55,11 @@ describe('F06 compra pela vitrine', () => {
         card_last4: '0001',
       },
     ]);
+
+    const next = await get(app, String(response.headers.location), buyer.cookie);
+    expect(next.statusCode).toBe(200);
+    expect(next.body).toContain(SUCCESS_MESSAGE('Compra registrada'));
+    expect(ticketRows(next.body).map((row) => row.label)).toEqual(['pendente']);
   });
 
   it('espaços digitados no número do cartão são removidos antes da compra', async () => {
