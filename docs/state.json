@@ -1,3 +1,84 @@
 {
-  "features": {}
+  "features": {
+    "F01": {
+      "nome": "Fundação e harness",
+      "wave": 1,
+      "status": "pendente",
+      "branch": null,
+      "pr": null,
+      "ultimo_relatorio": null
+    },
+
+    "F02": {
+      "nome": "Contas e acesso",
+      "wave": 2,
+      "status": "pendente",
+      "branch": null,
+      "pr": null,
+      "ultimo_relatorio": null
+    },
+
+    "F03": {
+      "nome": "Gateway de pagamento simulado",
+      "wave": 2,
+      "status": "pendente",
+      "branch": null,
+      "pr": null,
+      "ultimo_relatorio": null
+    },
+
+    "F04": {
+      "nome": "Gestão de eventos",
+      "wave": 3,
+      "status": "pendente",
+      "branch": null,
+      "pr": null,
+      "ultimo_relatorio": null
+    },
+
+    "F05": {
+      "nome": "Compra e ciclo do ingresso",
+      "wave": 4,
+      "status": "pendente",
+      "branch": null,
+      "pr": null,
+      "ultimo_relatorio": null
+    },
+
+    "F06": {
+      "nome": "Vitrine e Meus ingressos",
+      "wave": 5,
+      "status": "pendente",
+      "branch": null,
+      "pr": null,
+      "ultimo_relatorio": null
+    },
+
+    "F07": {
+      "nome": "API de parceiros",
+      "wave": 5,
+      "status": "pendente",
+      "branch": null,
+      "pr": null,
+      "ultimo_relatorio": null
+    },
+
+    "F08": {
+      "nome": "Check-in",
+      "wave": 5,
+      "status": "pendente",
+      "branch": null,
+      "pr": null,
+      "ultimo_relatorio": null
+    },
+
+    "F09": {
+      "nome": "Painel do evento",
+      "wave": 6,
+      "status": "pendente",
+      "branch": null,
+      "pr": null,
+      "ultimo_relatorio": null
+    }
+  }
 }

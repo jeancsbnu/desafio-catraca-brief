@@ -35,7 +35,7 @@ Regras que valem em todo o ciclo: quem implementa não avalia; relatório nunca 
 
 ## 3. Proposta de features e waves
 
-Ponto de partida para a entrevista do `prd-writer` (a divisão final sai do PRD).
+Ponto de partida para a entrevista do `prd-writer`. **A divisão final está no [PRD](PRD.md):** a mesma, com uma correção — o Painel (F09) consome o check-in da F08 e por isso foi para uma Wave 6 própria (Wave 5 = F06 ‖ F07 ‖ F08; 15 arestas, 20 critérios `CF`).
 
 | ID | Feature | Regras | Depende de | Wave |
 |---|---|---|---|---|

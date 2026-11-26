@@ -15,5 +15,8 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Worktrees das waves paralelas
+.worktrees/
+
 # Configuração local do Claude Code
 .claude/settings.local.json
