@@ -55,7 +55,7 @@ O modo padrão usa o gateway de pagamento **simulado**, sem nenhuma chave de pag
 | PRD (features, dependências, waves, critérios de aceite) | [`docs/PRD.md`](docs/PRD.md) |
 | Pasta de cada feature: spec, plano, contrato e relatórios de avaliação | `docs/features/<ID>-<nome>/` (`spec.md`, `plan.md`, `contract.md`, `reports/`) — uma linha por feature na tabela abaixo |
 | Arquivo de estado do projeto | [`docs/state.json`](docs/state.json) |
-| Verificação final: Fluxo do avaliador (passos 1–17) na `main`, a partir de clone limpo | [`docs/verificacao-final/`](docs/verificacao-final/) |
+| Verificação final: Fluxo do avaliador (passos 1–17) na `main`, a partir de clone limpo, e passe da interface em navegador real (Chromium/Playwright) com screenshots | [`docs/verificacao-final/`](docs/verificacao-final/) (screenshots em [`docs/verificacao-final/navegador/`](docs/verificacao-final/navegador/)) |
 | Porta de entrada dos agentes (comandos, regras, convenções) | [`AGENTS.md`](AGENTS.md) (o [`CLAUDE.md`](CLAUDE.md) aponta para ele) |
 | Plano de execução do orquestrador | [`docs/plano-de-execucao.md`](docs/plano-de-execucao.md) |
 | Skills dos agentes (PRD, spec, implementação, avaliação) | [`.claude/skills/`](.claude/skills/) |
