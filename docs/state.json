@@ -75,7 +75,7 @@
     "F09": {
       "nome": "Painel do evento",
       "wave": 6,
-      "status": "em_implementacao",
+      "status": "aguardando_avaliacao",
       "branch": "feat/F09-painel-do-evento",
       "pr": 9,
       "ultimo_relatorio": null
