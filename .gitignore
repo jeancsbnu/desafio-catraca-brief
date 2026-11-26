@@ -1,0 +1,19 @@
+# Dependências e build
+node_modules/
+dist/
+build/
+coverage/
+
+# Ambiente local (portas, nome do projeto do Compose, segredos)
+.env
+.env.*
+!.env.example
+
+# Logs e sistema
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Configuração local do Claude Code
+.claude/settings.local.json
