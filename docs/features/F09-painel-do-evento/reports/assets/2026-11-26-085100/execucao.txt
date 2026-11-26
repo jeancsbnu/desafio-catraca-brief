@@ -1,0 +1,364 @@
+2026-11-26T08:41:52-03:00
+HEAD=691ce9d41900f3dcb6affdb03cc735a3b1159265
+feat/F09-painel-do-evento
+0
+b8546bf12cec09800e2ed55798be8a0ae3629d40
+691ce9d41900f3dcb6affdb03cc735a3b1159265
+Error response from daemon: get catraca_db-data: no such volume
+=== UP
+2026-11-26T08:41:52-03:00
+
+[down] Derrubando a Catraca (projeto Compose "catraca")...
+[down] Pronto: containers e rede removidos; volume do banco preservado.
+ Container catraca-app-1 Created 
+ Container catraca-db-1 Starting 
+ Container catraca-db-1 Started 
+ Container catraca-db-1 Waiting 
+ Container catraca-db-1 Healthy 
+ Container catraca-app-1 Starting 
+ Container catraca-app-1 Started 
+ Container catraca-db-1 Waiting 
+ Container catraca-app-1 Waiting 
+ Container catraca-db-1 Healthy 
+ Container catraca-app-1 Healthy 
+[up] Catraca no ar.
+[up] $WEB = http://localhost:3000
+[up] $API = http://localhost:3000
+[up] Contas da seed e chave de parceiro: README.md, seção "Credenciais".
+catraca-app-1 Up 6 seconds (healthy)
+catraca-db-1 Up 16 seconds (healthy)
+balcao-revisao-2-b-f58bbc-db-1 Up 19 minutes (healthy)
+balcao-revisao-2-958b99-db-1 Up 20 minutes (healthy)
+desafio-arquitetura-era-ia-1-edge-1 Up 3 hours
+desafio-arquitetura-era-ia-1-app-1 Up 3 hours (healthy)
+desafio-arquitetura-era-ia-1-gateway-1 Up 21 minutes (healthy)
+desafio-arquitetura-era-ia-1-gateway-db-1 Up 3 hours (healthy)
+desafio-arquitetura-era-ia-1-provider-fake-1 Up 3 hours (healthy)
+bs-minio Up 11 hours (healthy)
+bs-mailhog Up 11 hours
+bs-postgres Up 11 hours (healthy)
+/tmp/f09b-20261126084152-01.sh
+/tmp/f09b-20261126084152-02.sh
+/tmp/f09b-20261126084152-03.sh
+/tmp/f09b-20261126084152-04.sh
+/tmp/f09b-20261126084152-05.sh
+/tmp/f09b-20261126084152-06.sh
+/tmp/f09b-20261126084152-07.sh
+/tmp/f09b-20261126084152-08.sh
+/tmp/f09b-20261126084152-09.sh
+/tmp/f09b-20261126084152-10.sh
+/tmp/f09b-20261126084152-11.sh
+/tmp/f09b-20261126084152-12.sh
+/tmp/f09b-20261126084152-13.sh
+
+######## BLOCO 1 (/tmp/f09b-20261126084152-01.sh) 2026-11-26T08:42:26-03:00
+0
+691ce9d41900f3dcb6affdb03cc735a3b1159265
+0
+sem .env
+U=1795693347
+PROX=2026-12-15T21:00
+{"status":"ok"}
+200
+[catraca] módulos: contas, gateway, eventos, ingressos, checkin, painel, health, meus-ingressos, parceiros, vitrine
+1
+200
+302
+set-cookie: catraca_sessao=****; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /organizador
+302
+set-cookie: catraca_sessao=****; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /organizador
+302
+set-cookie: catraca_sessao=****; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /
+302
+set-cookie: catraca_sessao=****; Max-Age=43200; Path=/; HttpOnly; SameSite=Lax
+location: /
+evt_uhtkdctw3p6oz275
+200
+1 1 1
+Confirmados 0 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 1 | Receita R$ 0,00 | Estornados 0
+200
+1 1
+######## fim bloco 1 rc=0
+
+######## BLOCO 2 (/tmp/f09b-20261126084152-02.sh) 2026-11-26T08:42:29-03:00
+evt_vnsbb88ud2c879jq
+200
+seções do painel: 1
+título: <h2>Painel</h2>
+rótulos: Confirmados | Pendentes | Check-ins | Vagas disponíveis | Receita | Estornados
+chaves: confirmados pendentes check-ins vagas-disponiveis receita estornados
+receita em centavos: 0
+espaços especiais no painel: 0
+posição: depois dos dados do evento e do check-in, antes do link de volta
+ok: <h2>Painel</h2>
+ok: <dt>Confirmados</dt><dd data-metrica="confirmados">0</dd>
+ok: <dt>Pendentes</dt><dd data-metrica="pendentes">0</dd>
+ok: <dt>Check-ins</dt><dd data-metrica="check-ins">0</dd>
+ok: <dt>Vagas disponíveis</dt><dd data-metrica="vagas-disponiveis">4</dd>
+ok: <dt>Receita</dt><dd data-metrica="receita" data-centavos="0">R$ 0,00</dd>
+ok: <dt>Estornados</dt><dd data-metrica="estornados">0</dd>
+6 1
+Confirmados 0 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 4 | Receita R$ 0,00 | Estornados 0
+302
+Confirmados 0 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 4 | Receita R$ 0,00 | Estornados 0
+seções do painel: 1
+posição: depois dos dados do evento e do check-in, antes do link de volta
+302
+Confirmados 0 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 0,00 | Estornados 0
+seções do painel: 1
+posição: depois dos dados do evento e do check-in, antes do link de volta
+######## fim bloco 2 rc=0
+
+######## BLOCO 3 (/tmp/f09b-20261126084152-03.sh) 2026-11-26T08:42:30-03:00
+evt_68vej6p5gt0b5pyt
+202
+confirmed
+Confirmados 1 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 1 | Receita R$ 617.283,95 | Estornados 0
+202
+confirmed
+Confirmados 2 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 1.234.567,90 | Estornados 0
+receita em centavos: 123456790
+espaços especiais no painel: 0
+61728395
+61728395
+######## fim bloco 3 rc=0
+
+######## BLOCO 4 (/tmp/f09b-20261126084152-04.sh) 2026-11-26T08:42:42-03:00
+evt_gbxrgnqxetqzx77j
+Confirmados 0 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 2 | Receita R$ 0,00 | Estornados 0
+302 location: /meus-ingressos?ok=compra | vitrine no evento: 0 -> 1 | tkt_kx61xoq60gctufhe 0BKNT0GF
+confirmed
+Confirmados 1 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 1 | Receita R$ 100,00 | Estornados 0
+202
+tkt_0vlitq2j8o49a9mb SAMFLHXF
+Confirmados 1 | Pendentes 1 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 100,00 | Estornados 0
+409 {"error":"sold_out"}
+Confirmados 1 | Pendentes 1 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 100,00 | Estornados 0
+declined|45.3
+declined
+Confirmados 1 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 1 | Receita R$ 100,00 | Estornados 0
+202
+confirmed
+Confirmados 2 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 200,00 | Estornados 0
+422
+1
+Confirmados 2 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 200,00 | Estornados 0
+302
+location: /organizador/eventos/evt_gbxrgnqxetqzx77j?ok=atualizado
+Confirmados 2 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 1 | Receita R$ 200,00 | Estornados 0
+receita em centavos: 20000
+202
+confirmed
+Confirmados 3 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 350,00 | Estornados 0
+receita em centavos: 35000
+vitrine|confirmed|10000
+api|declined|10000
+api|confirmed|10000
+api|confirmed|15000
+######## fim bloco 4 rc=0
+
+######## BLOCO 5 (/tmp/f09b-20261126084152-05.sh) 2026-11-26T08:43:42-03:00
+evt_gbxrgnqxetqzx77j 0BKNT0GF SAMFLHXF
+Confirmados 3 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 350,00 | Estornados 0
+200 | mensagens: Entrada liberada
+Confirmados 3 | Pendentes 0 | Check-ins 1 | Vagas disponíveis 0 | Receita R$ 350,00 | Estornados 0
+Confirmados 3 | Pendentes 0 | Check-ins 1 | Vagas disponíveis 0 | Receita R$ 350,00 | Estornados 0
+200 | mensagens: Ingresso já utilizado
+Confirmados 3 | Pendentes 0 | Check-ins 1 | Vagas disponíveis 0 | Receita R$ 350,00 | Estornados 0
+200 | mensagens: Ingresso não confirmado
+Confirmados 3 | Pendentes 0 | Check-ins 1 | Vagas disponíveis 0 | Receita R$ 350,00 | Estornados 0
+200 | mensagens: Ingresso inválido para este evento
+Confirmados 3 | Pendentes 0 | Check-ins 1 | Vagas disponíveis 0 | Receita R$ 350,00 | Estornados 0
+confirmed|true
+t|confirmed|t
+######## fim bloco 5 rc=0
+
+######## BLOCO 6 (/tmp/f09b-20261126084152-06.sh) 2026-11-26T08:43:43-03:00
+evt_j4e6h57xzldyk5a8
+202
+tkt_kavh4ry92x7sjuja C8RD4AXJ
+200 tkt_kavh4ry92x7sjuja|C8RD4AXJ|evt_j4e6h57xzldyk5a8|confirmed|false
+1
+Confirmados 1 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 1 | Receita R$ 30,00 | Estornados 0
+200 | mensagens: Entrada liberada
+200 tkt_kavh4ry92x7sjuja|C8RD4AXJ|evt_j4e6h57xzldyk5a8|confirmed|true
+1
+Confirmados 1 | Pendentes 0 | Check-ins 1 | Vagas disponíveis 1 | Receita R$ 30,00 | Estornados 0
+api|confirmed|t|t|t
+######## fim bloco 6 rc=0
+
+######## BLOCO 7 (/tmp/f09b-20261126084152-07.sh) 2026-11-26T08:43:47-03:00
+evt_y9aszjg5fhtk9o5y
+302 location: /meus-ingressos?ok=compra | vitrine no evento: 0 -> 1 | tkt_g0cgan7v12bz4gf6 NOM1FARZ
+302 location: /meus-ingressos?ok=compra | vitrine no evento: 1 -> 2 | tkt_9mejvfx6rrgztu1b 7W111ZFI
+202
+202
+confirmed
+declined
+confirmed
+confirmed
+Confirmados 3 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 2 | Receita R$ 300,00 | Estornados 0
+api|confirmed|2|20000|t
+vitrine|confirmed|1|10000|t
+vitrine|declined|1|10000|t
+######## fim bloco 7 rc=0
+
+######## BLOCO 8 (/tmp/f09b-20261126084152-08.sh) 2026-11-26T08:43:55-03:00
+evt_iw00f6kbtodf9mlx
+Confirmados 0 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 5 | Receita R$ 0,00 | Estornados 0
+202
+202
+confirmed
+Confirmados 1 | Pendentes 1 | Check-ins 0 | Vagas disponíveis 3 | Receita R$ 50,00 | Estornados 0
+302
+location: /organizador/eventos/evt_iw00f6kbtodf9mlx?ok=cancelado
+Confirmados 0 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 0,00 | Estornados 1
+t|t
+refunded
+cancelled
+cancelled|46.3
+cancelled
+Confirmados 0 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 0,00 | Estornados 1
+200 | mensagens: Evento cancelado
+Confirmados 0 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 0,00 | Estornados 1
+cancelled|f
+refunded|f
+######## fim bloco 8 rc=0
+
+######## BLOCO 9 (/tmp/f09b-20261126084152-09.sh) 2026-11-26T08:44:42-03:00
+evt_9td8y69mzsgwhh7j
+202
+202
+202
+confirmed
+confirmed
+Confirmados 2 | Pendentes 1 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 20,00 | Estornados 0
+200 | mensagens: Ingresso não confirmado
+Confirmados 2 | Pendentes 1 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 20,00 | Estornados 0
+200 | mensagens: Entrada liberada
+Confirmados 2 | Pendentes 1 | Check-ins 1 | Vagas disponíveis 0 | Receita R$ 20,00 | Estornados 0
+302
+Confirmados 0 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 0,00 | Estornados 2
+refunded|true
+refunded|false
+cancelled|false
+######## fim bloco 9 rc=0
+
+######## BLOCO 10 (/tmp/f09b-20261126084152-10.sh) 2026-11-26T08:44:47-03:00
+evt_13zrng9nj173yclr
+Evento F09 1795693347-9
+202
+confirmed
+Confirmados 1 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 2 | Receita R$ 77,00 | Estornados 0
+b | 404 | 0 0 0 0 0 0
+ps | 403 | 0 0 0 0 0 0
+visitante | 302 location: /entrar | 0 0 0 0 0 0
+evt_cmzzx6w7w05v5zb7
+202
+confirmed
+Confirmados 1 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 20,00 | Estornados 0
+ausente: R$ 77,00
+ausente: Evento F09 1795693347-9
+200 | mensagens: Ingresso inválido para este evento
+Confirmados 1 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 2 | Receita R$ 77,00 | Estornados 0
+Confirmados 1 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 20,00 | Estornados 0
+404 | mensagens: nenhuma
+1 0
+Confirmados 1 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 2 | Receita R$ 77,00 | Estornados 0
+confirmed|false
+######## fim bloco 10 rc=0
+
+######## BLOCO 11 (/tmp/f09b-20261126084152-11.sh) 2026-11-26T08:44:55-03:00
+rodada 1: evt_0e0e5znbruetpo3d
+      5 202
+     25 409
+Confirmados 0 | Pendentes 5 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 0,00 | Estornados 0
+Confirmados 5 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 50,00 | Estornados 0
+t|5|5
+rodada 2: evt_c7dw98xwszo6wda1
+      5 202
+     25 409
+Confirmados 0 | Pendentes 5 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 0,00 | Estornados 0
+Confirmados 5 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 50,00 | Estornados 0
+t|5|5
+rodada 3: evt_i1t63wgqgmt9w5eq
+      5 202
+     25 409
+Confirmados 0 | Pendentes 5 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 0,00 | Estornados 0
+Confirmados 5 | Pendentes 0 | Check-ins 0 | Vagas disponíveis 0 | Receita R$ 50,00 | Estornados 0
+t|5|5
+######## fim bloco 11 rc=0
+
+######## BLOCO 12 (/tmp/f09b-20261126084152-12.sh) 2026-11-26T08:45:09-03:00
+CF16 CF17 CF18 CF19 CF20 F09-CA01 F09-CA02 F09-CA03 F09-CA04 F09-CA05
+exit=0
+[gates] projeto Compose "catraca-gates" (banco próprio, sem portas no host)
+[gates] lint: ok
+[gates] typecheck: ok
+[gates] testes: ok (31 executados, 0 falharam) [filtro: test/f09]
+[gates] resultado: OK
+######## fim bloco 12 rc=0
+
+######## BLOCO 13 (/tmp/f09b-20261126084152-13.sh) 2026-11-26T08:45:55-03:00
+######## fim bloco 13 rc=0
+######## G1
+2026-11-26T08:45:55-03:00
+   ✓ F04 publicação (2)
+     ✓ F04-CA04 Publicar muda o rascunho para Publicado 456ms
+ ✓ test/f09/calculo.test.ts (6 tests) 146ms
+ ✓ test/f01/layout.test.ts (4 tests) 108ms
+ ✓ test/f08/modulo.test.ts (2 tests) 545ms
+ ✓ test/f02/cookie.test.ts (5 tests) 156ms
+ ✓ test/f01/cli.test.ts (4 tests) 416ms
+ ✓ test/f01/modules.test.ts (5 tests) 543ms
+ ✓ test/f02/retorno.test.ts (5 tests) 125ms
+ ✓ test/f06/concorrencia.test.ts (1 test) 814ms
+   ✓ F06 concorrência na vitrine (1)
+     ✓ F06-CA03 30 compras simultâneas pela vitrine em lotação 5 resultam em 5 redirecionamentos e 25 Ingressos esgotados, em 3 rodadas com eventos novos 811ms
+ ✓ test/f02/cf01-seed-login.test.ts (2 tests) 819ms
+   ✓ CF01 contas da seed (F01) entram pelo login (F02) (2)
+     ✓ CF01 organizador A da seed entra com catraca123 e chega a /organizador 498ms
+     ✓ CF01 rodar a seed de novo (nova subida) mantém o login e a sessão existente 318ms
+ ✓ test/f06/cf08-status-do-evento.test.ts (1 test) 468ms
+   ✓ F06 CF08 status do evento (1)
+     ✓ CF08 pela gestão da F04: rascunho não aparece, publicado aparece e cancelado sai da vitrine 465ms
+ ✓ test/f08/normalizacao.test.ts (3 tests) 93ms
+ ✓ test/f01/health.test.ts (2 tests) 472ms
+   ✓ F01 GET /health (2)
+     ✓ F01-CA01 GET /health responde 200 com {"status":"ok"} 376ms
+ ✓ test/f01/html.test.ts (4 tests) 110ms
+ ✓ test/f04/seed.test.ts (1 test) 194ms
+
+ Test Files  83 passed (83)
+      Tests  452 passed (452)
+   Start at  08:46:39
+   Duration  164.00s (tests 90%, setup 7%, transform 1%, import 1%)
+
+    Isolate  83 workers spawned · ~137ms startup each (spawn + environment, per file)
+             at least ~11.23s faster with isolate: false — reuses workers across files instead of one per file
+
+JSON report written to /tmp/catraca-gates-rkZQZA/vitest.json
+
+[gates] lint: ok
+[gates] typecheck: ok
+[gates] testes: ok (452 executados, 0 falharam)
+[gates] resultado: OK
+g1 exit=0
+######## DOWN
+ Network catraca_default Removing 
+ Network catraca_default Removed 
+[down] Pronto: containers e rede removidos; volume do banco preservado.
+desafio-arquitetura-era-ia-1-edge-1
+desafio-arquitetura-era-ia-1-app-1
+desafio-arquitetura-era-ia-1-gateway-1
+desafio-arquitetura-era-ia-1-gateway-db-1
+desafio-arquitetura-era-ia-1-provider-fake-1
+bs-minio
+bs-mailhog
+bs-postgres
+catraca_db-data
+2026-11-26T08:49:43-03:00
+FIM

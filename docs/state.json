@@ -75,10 +75,10 @@
     "F09": {
       "nome": "Painel do evento",
       "wave": 6,
-      "status": "especificada",
-      "branch": null,
-      "pr": null,
-      "ultimo_relatorio": null
+      "status": "concluida",
+      "branch": "feat/F09-painel-do-evento",
+      "pr": 9,
+      "ultimo_relatorio": "docs/features/F09-painel-do-evento/reports/2026-11-26-085100.md"
     }
   }
 }
