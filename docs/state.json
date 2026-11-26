@@ -48,7 +48,7 @@
     "F06": {
       "nome": "Vitrine e Meus ingressos",
       "wave": 5,
-      "status": "pendente",
+      "status": "especificada",
       "branch": null,
       "pr": null,
       "ultimo_relatorio": null
