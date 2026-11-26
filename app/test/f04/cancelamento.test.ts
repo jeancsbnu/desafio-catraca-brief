@@ -78,7 +78,10 @@ describe('F04 cancelamento', () => {
     expect(page.body).toContain('<p class="msg msg-success" role="status">Evento cancelado com sucesso</p>');
     expect(page.body).toContain('<h1>Cancelado agora</h1>');
     expect(page.body).toContain('<p>Status: <strong data-status="cancelado">Cancelado</strong></p>');
-    expect(page.body).toContain('</dl>\n<p><a href="/organizador">Voltar para meus eventos</a></p>');
+    // Entre os dados e o link de volta, só as seções de outras features (ex.: check-in da F08).
+    expect(page.body).toMatch(
+      /<\/dl>\n(?:<section class="gestao-secao" data-secao="[a-z][a-z0-9-]*">[\s\S]*?<\/section>\n)*<p><a href="\/organizador">Voltar para meus eventos<\/a><\/p>/,
+    );
     for (const text of [
       `/organizador/eventos/${id}/editar`,
       `/organizador/eventos/${id}/publicar`,

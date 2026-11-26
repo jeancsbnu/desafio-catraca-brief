@@ -66,10 +66,10 @@
     "F08": {
       "nome": "Check-in",
       "wave": 5,
-      "status": "especificada",
-      "branch": null,
-      "pr": null,
-      "ultimo_relatorio": null
+      "status": "concluida",
+      "branch": "feat/F08-check-in",
+      "pr": 8,
+      "ultimo_relatorio": "docs/features/F08-check-in/reports/2026-11-26-080134.md"
     },
 
     "F09": {
