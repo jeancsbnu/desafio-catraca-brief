@@ -61,7 +61,17 @@ O modo padrão usa o gateway de pagamento **simulado**, sem nenhuma chave de pag
 | Aplicação (código, migrations, testes, Dockerfile) | [`app/`](app/) |
 | Ambientes do Compose e comandos do host | [`compose.yaml`](compose.yaml), [`compose.gates.yaml`](compose.gates.yaml), [`scripts/`](scripts/) |
 
-**PRs da wave paralela:** a completar após a Wave 2.
+**PRs das waves paralelas** (cada feature na sua branch e worktree, implementadas ao mesmo tempo e integradas à `main` por PR; o primeiro commit de cada PR é anterior ao último commit dos outros da mesma wave):
+
+| Wave | Feature | PR |
+|---|---|---|
+| 2 | F02 — Contas e acesso | [#2](https://github.com/jeancsbnu/desafio-catraca-brief/pull/2) |
+| 2 | F03 — Gateway de pagamento simulado | [#3](https://github.com/jeancsbnu/desafio-catraca-brief/pull/3) |
+| 5 | F06 — Vitrine e Meus ingressos | [#6](https://github.com/jeancsbnu/desafio-catraca-brief/pull/6) |
+| 5 | F07 — API de parceiros | [#7](https://github.com/jeancsbnu/desafio-catraca-brief/pull/7) |
+| 5 | F08 — Check-in | [#8](https://github.com/jeancsbnu/desafio-catraca-brief/pull/8) |
+
+As features sequenciais também entraram por PR: F01 [#1](https://github.com/jeancsbnu/desafio-catraca-brief/pull/1), F04 [#4](https://github.com/jeancsbnu/desafio-catraca-brief/pull/4), F05 [#5](https://github.com/jeancsbnu/desafio-catraca-brief/pull/5) e F09 [#9](https://github.com/jeancsbnu/desafio-catraca-brief/pull/9).
 
 ## Decisões
 
