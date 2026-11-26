@@ -49,12 +49,17 @@ async function waitSettled(app: FastifyInstance, ids: readonly string[], timeout
 
 /** Status dos ingressos quando todos completam `seconds` de vida (no relógio do banco). */
 async function statusAtAge(app: FastifyInstance, ids: readonly string[], seconds: number): Promise<{ statuses: string[]; age: number }> {
-  const { rows: wait } = await app.db.query<{ remaining: number }>(
-    `SELECT greatest(0, $2::float8 - EXTRACT(EPOCH FROM clock_timestamp() - max(created_at)))::float8 AS remaining
-       FROM tickets WHERE id = ANY($1::text[])`,
-    [ids, seconds],
-  );
-  await sleep((wait[0]?.remaining ?? 0) * 1000);
+  // O relógio do banco manda: repete até a idade ser atingida (o timer do Node pode adiantar ~1 ms).
+  for (;;) {
+    const { rows: wait } = await app.db.query<{ remaining: number }>(
+      `SELECT greatest(0, $2::float8 - EXTRACT(EPOCH FROM clock_timestamp() - max(created_at)))::float8 AS remaining
+         FROM tickets WHERE id = ANY($1::text[])`,
+      [ids, seconds],
+    );
+    const remaining = wait[0]?.remaining ?? 0;
+    if (remaining <= 0) break;
+    await sleep(remaining * 1000 + 2);
+  }
   const { rows } = await app.db.query<{ status: string; age: number }>(
     `SELECT status, EXTRACT(EPOCH FROM clock_timestamp() - created_at)::float8 AS age
        FROM tickets WHERE id = ANY($1::text[]) ORDER BY array_position($1::text[], id)`,
