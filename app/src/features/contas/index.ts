@@ -4,7 +4,11 @@
 import './types.js';
 import fp from 'fastify-plugin';
 import type { FeaturePlugin } from '../../core/modules.js';
+import { hashPassword } from '../../core/password.js';
+import { newSessionToken } from './cookie.js';
 import { loadSession, noStoreWhenLoggedIn } from './guards.js';
+import { navContribution } from './pages.js';
+import { registerAccountRoutes } from './routes.js';
 
 export const loadOrder = 10;
 
@@ -13,6 +17,14 @@ const contas: FeaturePlugin = async (app) => {
 
   app.addHook('onRequest', loadSession);
   app.addHook('onSend', noStoreWhenLoggedIn);
+
+  app.layout.addNavContributor({
+    name: 'contas',
+    order: 1000,
+    render: (request) => navContribution(request.user ?? null),
+  });
+
+  registerAccountRoutes(app, { dummyPasswordHash: await hashPassword(newSessionToken()) });
 };
 
 export default fp(contas, { name: 'contas' });
