@@ -1,0 +1,35 @@
+# Ambiente efêmero dos gates (npm run gates): banco próprio em memória e nenhuma porta no host.
+# O script sempre passa -p <COMPOSE_PROJECT_NAME>-gates (catraca-gates por padrão).
+name: catraca-gates
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: catraca
+      POSTGRES_PASSWORD: catraca
+      POSTGRES_DB: catraca_test
+      TZ: America/Sao_Paulo
+      PGTZ: America/Sao_Paulo
+    tmpfs:
+      - /var/lib/postgresql/data
+    command: ["postgres", "-c", "fsync=off", "-c", "synchronous_commit=off", "-c", "full_page_writes=off"]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "catraca", "-d", "catraca_test"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  gates:
+    build:
+      context: ./app
+      target: gates
+    environment:
+      NODE_ENV: test
+      DATABASE_URL: postgres://catraca:catraca@db:5432/catraca_test
+      TZ: America/Sao_Paulo
+      LOG_LEVEL: silent
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["npm", "run", "gates"]

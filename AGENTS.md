@@ -12,13 +12,40 @@ A Catraca vende ingressos para eventos pequenos. O produto é construído do zer
 
 ## Comandos
 
+Todos na raiz do repositório. Pré-requisitos do host: Docker (com Compose v2), Git e Node.js LTS (≥ 20). Não há `npm install` na raiz: o `package.json` da raiz só tem scripts.
+
 | Ação | Comando | Situação |
 |---|---|---|
-| Subir tudo (com seed) | `npm run up` | criado pela F01 |
-| Derrubar tudo | `npm run down` | criado pela F01 |
-| Gates (lint, typecheck, testes) | `npm run gates` | criado pela F01 |
+| Subir tudo (constrói, migrations e seed, espera ficar saudável) | `npm run up` | pronto |
+| Derrubar tudo (containers e rede; preserva o volume do banco) | `npm run down` | pronto |
+| Gates (lint, typecheck, testes) em container, projeto Compose `<projeto>-gates` | `npm run gates` | pronto |
+| Gates com filtro do Vitest (nome de arquivo ou `-t <nome do teste>`) | `npm run gates -- <filtro>` | pronto |
+| Comandos de diagnóstico dentro do container (`help`, `migrate`, `seed`, `config`) | `docker compose exec app catraca <comando>` | pronto |
+| Banco (psql) | `docker compose exec db psql -U catraca -d catraca` | pronto |
 
-Até a F01 ser integrada não existe ambiente. A F01 atualiza esta tabela com os comandos reais, os endereços (`$WEB`, `$API`) e onde ficam as credenciais da seed e a chave de parceiro (README).
+- **Endereços:** `$WEB` = `$API` = `http://localhost:3000` (produto e API de parceiros no mesmo servidor).
+- **Credenciais da seed e chave de parceiro:** [`README.md`](README.md), seção "Credenciais".
+- `npm run gates` roda com o ambiente do `npm run up` no ar sem tocar nele (banco próprio, sem portas no host) e termina com 0 só se lint, typecheck e testes passarem.
+
+## Ambiente por worktree
+
+- Cada worktree que sobe o ambiente usa um `.env` local (não versionado; modelo em `.env.example`) com nome de projeto e porta próprios, por exemplo `COMPOSE_PROJECT_NAME=catraca-f02` e `CATRACA_PORT=3002`. A variável do shell vale mais que o `.env`; sem nenhuma, valem `catraca` e `3000`.
+- Os gates usam o projeto `<COMPOSE_PROJECT_NAME>-gates` (ex.: `catraca-f02-gates`): worktrees diferentes rodam gates ao mesmo tempo sem colidir.
+- Comandos `docker compose ...` manuais numa worktree leem o mesmo `.env` (o Compose o carrega da raiz).
+- Ao terminar, derrube o ambiente da worktree com `npm run down`.
+
+## Convenções de código
+
+- **Layout:** aplicação em `app/` (Node.js 24 + TypeScript ESM `strict`, Fastify 5, PostgreSQL 16 com `pg` e SQL explícito, Vitest); comandos do host em `scripts/` (Node, só módulos nativos); `compose.yaml` (ambiente) e `compose.gates.yaml` (gates).
+- **Módulos de feature:** cada feature vive em `app/src/features/<nome>/` com `index.ts` exportando como `default` um plugin Fastify assíncrono; a aplicação carrega a pasta sozinha (ninguém edita registro central). `export const loadOrder = <n>` opcional (padrão 100; menor carrega antes; empate pelo nome da pasta). Pastas iniciadas por `_` são ignoradas. Para afetar todas as rotas (hook, decorator de request), envolva o plugin com `fastify-plugin`.
+- **Páginas:** `reply.page({ title, content, messages?, status? })` responde o documento completo no layout comum; HTML sempre pelo tagged template `html` (escapa tudo), `raw` só para HTML gerado pelo próprio código. Links no topo entram por `app.layout.addNavContributor({ name, order, render })`.
+- **Recursos compartilhados:** `app.config`, `app.db`, `app.layout`, `app.backgroundJobs` (tarefas em segundo plano só quando `true`; nos testes é `false`). Transações com `withTransaction` (`app/src/db/transaction.ts`).
+- **Migrations:** arquivo novo em `app/migrations/` com nome `$(date -u +%Y%m%d%H%M%S)_<nome_em_snake_case>.sql`; aplicadas na subida, em ordem de nome, uma transação por arquivo. Nunca edite uma migration já integrada à `main` (o runner recusa checksum diferente): crie outra.
+- **CLI de diagnóstico:** arquivo novo em `app/src/cli/commands/` exportando `name`, `description` e `run({ args, config, db, print })` vira `catraca <nome>`.
+- **Testes:** em `app/test/<fNN>/` (ex.: `app/test/f02/`), com o ID do critério no nome do teste (ex.: `F02-CA01 ...`). Helpers em `app/test/helpers/`: `createTestApp`, `testDb`, `resetDatabase`, `withTemporaryDatabase`, `seedAccounts`. O banco é limpo antes de cada teste; os testes só rodam num banco terminado em `_test`.
+- **Dados:** IDs `text` com prefixo (`usr_`, `evt_`, `tkt_`, `pay_`) via `newId(prefixo)`; dinheiro sempre em centavos (inteiro); datas `timestamptz`; fuso do produto `America/Sao_Paulo` (`formatBRL`, `formatDateTimeBR`, `toIsoWithOffset` em `app/src/core/format.ts`).
+- **Configuração:** variáveis de ambiente com padrão em `app/src/config.ts` (`DATABASE_URL`, `PORT`, `SESSION_SECRET`, `GATEWAY_MODE=simulado`, `GATEWAY_DELAY_SCALE` só com `NODE_ENV=test`, `PARTNER_API_KEY`, `LOG_LEVEL`); nenhuma é obrigatória e não existe chave de pagamento.
+- **Estilo:** identificadores em inglês; textos de interface, logs e mensagens em pt-BR. O projeto não tem formatador automático; o ESLint roda só em `app/`.
 
 ## Ciclo de trabalho
 
@@ -50,12 +77,16 @@ Uma wave só começa quando todas as features da wave anterior estão concluída
 
 | Artefato | Caminho |
 |---|---|
+| README (como rodar, endereços, credenciais, decisões) | `README.md` |
 | Brief | `docs/brief.md` |
 | Plano de execução | `docs/plano-de-execucao.md` |
 | PRD | `docs/PRD.md` |
 | Spec, plano e contrato de cada feature | `docs/features/<ID>-<nome>/spec.md`, `plan.md`, `contract.md` |
 | Relatórios de avaliação | `docs/features/<ID>-<nome>/reports/<AAAA-MM-DD-HHMMSS>.md` |
 | Estado do projeto | `docs/state.json` |
+| Aplicação (código, migrations, testes, Dockerfile) | `app/` |
+| Ambientes do Compose (produto e gates) | `compose.yaml`, `compose.gates.yaml` |
+| Comandos do host (`up`, `down`, `gates`) | `scripts/` |
 | Skills | `.claude/skills/prd-writer`, `spec-writer`, `implement-feature`, `evaluate-feature` |
 
 ## Estado do projeto

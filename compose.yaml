@@ -1,0 +1,46 @@
+# Ambiente da Catraca (o mesmo do avaliador): npm run up / npm run down.
+# Porta e nome do projeto podem mudar por variável ou .env local: CATRACA_PORT, COMPOSE_PROJECT_NAME.
+name: catraca
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: catraca
+      POSTGRES_PASSWORD: catraca
+      POSTGRES_DB: catraca
+      TZ: America/Sao_Paulo
+      PGTZ: America/Sao_Paulo
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "catraca", "-d", "catraca"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    # Sem portas no host: acesso por "docker compose exec db psql -U catraca -d catraca".
+
+  app:
+    build:
+      context: ./app
+      target: runtime
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: "3000"
+      DATABASE_URL: postgres://catraca:catraca@db:5432/catraca
+      TZ: America/Sao_Paulo
+      # Opcionais, repassados do shell ou do .env só quando definidos.
+      PARTNER_API_KEY:
+      SESSION_SECRET:
+      LOG_LEVEL:
+    ports:
+      - "${CATRACA_PORT:-3000}:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    init: true
+    # Sem política de restart: falha na subida encerra o container e faz o --wait falhar.
+
+volumes:
+  db-data:
