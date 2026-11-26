@@ -12,8 +12,8 @@
     "F02": {
       "nome": "Contas e acesso",
       "wave": 2,
-      "status": "especificada",
-      "branch": null,
+      "status": "em_implementacao",
+      "branch": "feat/F02-contas-e-acesso",
       "pr": null,
       "ultimo_relatorio": null
     },
